@@ -6,10 +6,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { GroupsModule } from './groups/groups.module';
 import { ParticipantsModule } from './participants/participants.module';
 import { ExpensesModule } from './expenses/expenses.module';
+import { ExpenseParticipantsModule } from './expense_participants/expense_participants.module';
 
 @Module({
   imports: [
     ClientsModule,
+    GroupsModule,
+    ParticipantsModule,
+    ExpensesModule,
+    ExpenseParticipantsModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
@@ -20,9 +25,6 @@ import { ExpensesModule } from './expenses/expenses.module';
       synchronize: false,
       autoLoadEntities: true,
     }),
-    GroupsModule,
-    ParticipantsModule,
-    ExpensesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
