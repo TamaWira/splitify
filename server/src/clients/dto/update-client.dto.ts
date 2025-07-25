@@ -1,4 +1,4 @@
+import { Client } from '../entities/client.entity';
 import { PartialType } from '@nestjs/mapped-types';
-import { CreateClientDto } from './create-client.dto';
 
-export class UpdateClientDto extends PartialType(CreateClientDto) {}
+export class UpdateClientDto extends PartialType(Client) {}

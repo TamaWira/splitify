@@ -1,26 +1,61 @@
 import { Injectable } from '@nestjs/common';
-import { CreateClientDto } from './dto/create-client.dto';
+import { v4 as uuidv4 } from 'uuid';
 import { UpdateClientDto } from './dto/update-client.dto';
+import { Client } from './entities/client.entity';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class ClientsService {
-  create(createClientDto: CreateClientDto) {
-    return 'This action adds a new client';
+  constructor(
+    @InjectRepository(Client)
+    private readonly clientRepository: Repository<Client>,
+  ) {}
+
+  async create() {
+    const uuid = uuidv4();
+    const result = await this.clientRepository
+      .createQueryBuilder()
+      .insert()
+      .into(Client)
+      .values({ id: uuid })
+      .returning('*')
+      .execute();
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    const insertedClient = result.raw?.[0] as Client;
+    if (!insertedClient) {
+      throw new Error('Failed to create client');
+    }
+
+    return insertedClient;
   }
 
-  findAll() {
-    return `This action returns all clients`;
+  async findAll() {
+    return await this.clientRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} client`;
+  async findOne(id: string) {
+    return await this.clientRepository.findOneBy({ id });
   }
 
-  update(id: number, updateClientDto: UpdateClientDto) {
-    return `This action updates a #${id} client`;
+  async update(id: string, updateClientDto: UpdateClientDto) {
+    const client = await this.clientRepository.findOneBy({ id });
+    if (!client) {
+      throw new Error('Client not found');
+    }
+
+    await this.clientRepository.update(id, updateClientDto);
+    return await this.clientRepository.findOneBy({ id });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} client`;
+  async remove(id: string) {
+    const client = await this.clientRepository.findOneBy({ id });
+    if (!client) {
+      throw new Error('Client not found');
+    }
+
+    await this.clientRepository.delete(id);
+    return client;
   }
 }
