@@ -1,9 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { v4 as uuidv4 } from 'uuid';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { UpdateClientDto } from './dto/update-client.dto';
 import { Client } from './entities/client.entity';
-import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class ClientsService {
@@ -13,12 +12,11 @@ export class ClientsService {
   ) {}
 
   async create() {
-    const uuid = uuidv4();
     const result = await this.clientRepository
       .createQueryBuilder()
       .insert()
       .into(Client)
-      .values({ id: uuid })
+      .values({})
       .returning('*')
       .execute();
 
