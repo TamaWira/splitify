@@ -30,6 +30,9 @@ export class Expense {
   @Column({ name: 'category', type: 'varchar', length: 255 })
   category: string;
 
+  @Column({ name: 'is_settled', type: 'boolean', default: false })
+  isSettled: boolean;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
