@@ -1,0 +1,40 @@
+import { TGroupList } from "../types/group";
+
+export const groupList: TGroupList[] = [
+  {
+    id: "1",
+    clientId: "string",
+    title: "Prambanan Jazz Festival",
+    createdAt: new Date("2025-07-25 10:32:12.754"),
+    updatedAt: new Date("2025-07-25 10:32:12.754"),
+    numOfPeople: 3,
+    numOfExpenses: 3,
+    totalAmount: 450.0,
+    isSettled: true,
+    notSettledAmount: 0,
+  },
+  {
+    id: "2",
+    clientId: "string",
+    title: "Weekend Trip",
+    createdAt: new Date("2025-07-25 10:32:12.754"),
+    updatedAt: new Date("2025-07-25 10:32:12.754"),
+    numOfPeople: 3,
+    numOfExpenses: 3,
+    totalAmount: 450.0,
+    isSettled: false,
+    notSettledAmount: 200.0,
+  },
+  {
+    id: "3",
+    clientId: "string",
+    title: "Gacoan",
+    createdAt: new Date("2025-07-25 10:32:12.754"),
+    updatedAt: new Date("2025-07-25 10:32:12.754"),
+    numOfPeople: 3,
+    numOfExpenses: 3,
+    totalAmount: 450.0,
+    isSettled: false,
+    notSettledAmount: 200.0,
+  },
+];
