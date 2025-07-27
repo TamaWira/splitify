@@ -7,6 +7,8 @@ import { GroupsModule } from './groups/groups.module';
 import { ParticipantsModule } from './participants/participants.module';
 import { ExpensesModule } from './expenses/expenses.module';
 import { ExpenseParticipantsModule } from './expense_participants/expense_participants.module';
+import { ConfigModule } from '@nestjs/config';
+import databaseConfig from './config/database.config';
 
 @Module({
   imports: [
@@ -15,6 +17,12 @@ import { ExpenseParticipantsModule } from './expense_participants/expense_partic
     ParticipantsModule,
     ExpensesModule,
     ExpenseParticipantsModule,
+
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [databaseConfig],
+    }),
+
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
