@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
 import { Group } from './entities/group.entity';
+import { GroupSummaryDto } from './dto/group-summary.dto';
 
 @Injectable()
 export class GroupsService {
@@ -58,6 +59,27 @@ export class GroupsService {
 
   async findAll() {
     return await this.groupRepository.find();
+  }
+
+  async findAllWithSummary(clientId: string): Promise<GroupSummaryDto[]> {
+    return await this.groupRepository
+      .createQueryBuilder('g')
+      .leftJoin('g.participants', 'p')
+      .leftJoin('g.expenses', 'e')
+      .select('g.id', 'id')
+      .addSelect('g.title', 'title')
+      .addSelect('COUNT(DISTINCT p.id)', 'participantCount')
+      .addSelect('COUNT(DISTINCT e.id)', 'expenseCount')
+      .addSelect('COALESCE(SUM(e.amount), 0)', 'totalAmount')
+      .addSelect(
+        'COALESCE(SUM(e.amount) FILTER (WHERE e.is_settled = false), 0)',
+        'unsettledAmount',
+      )
+      .addSelect('BOOL_AND(e.is_settled)', 'isFullySettled')
+      .where('g.client_id = :clientId', { clientId })
+      .groupBy('g.id')
+      .addGroupBy('g.title')
+      .getRawMany();
   }
 
   async findOne(id: string) {

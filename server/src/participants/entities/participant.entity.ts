@@ -1,7 +1,13 @@
+import { ExpenseParticipant } from 'src/expense_participants/entities/expense_participant.entity';
+import { Expense } from 'src/expenses/entities/expense.entity';
+import { Group } from 'src/groups/entities/group.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -25,4 +31,21 @@ export class Participant {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
+
+  // ===== Relations =====
+  // participants > groups
+  @ManyToOne(() => Group, (group) => group.participants)
+  @JoinColumn({ name: 'group_id' })
+  group: Group;
+
+  // participants < expenses
+  @OneToMany(() => Expense, (expense) => expense.participants)
+  expenses: Expense[];
+
+  // participants < expense_participants
+  @OneToMany(
+    () => ExpenseParticipant,
+    (expenseParticipant) => expenseParticipant.participant,
+  )
+  expenseParticipants: ExpenseParticipant[];
 }

@@ -1,10 +1,13 @@
 import { Client } from 'src/clients/entities/client.entity';
+import { Expense } from 'src/expenses/entities/expense.entity';
+import { Participant } from 'src/participants/entities/participant.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -26,7 +29,17 @@ export class Group {
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
-  @ManyToOne(() => Client)
+  // ===== Relations =====
+  // groups - many-to-one - clients
+  @ManyToOne(() => Client, (client) => client.groups)
   @JoinColumn({ name: 'client_id' })
   client: Client;
+
+  // groups - one-to-many - participants
+  @OneToMany(() => Participant, (participants) => participants.group)
+  participants: Participant[];
+
+  // groups - one-to-many - expenses
+  @OneToMany(() => Expense, (expenses) => expenses.group)
+  expenses: Expense[];
 }

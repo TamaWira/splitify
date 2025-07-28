@@ -6,11 +6,14 @@ import {
   Patch,
   Param,
   Delete,
+  Req,
+  UseGuards,
 } from '@nestjs/common';
 import { GroupsService } from './groups.service';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
 import { CreateGroupWithParticipantsDto } from './dto/create-group-with-participants.dto';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('groups')
 export class GroupsController {
@@ -36,6 +39,12 @@ export class GroupsController {
   @Get()
   findAll() {
     return this.groupsService.findAll();
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('/summary')
+  async findAllWithSummary(@Req() req) {
+    return await this.groupsService.findAllWithSummary(req.user.clientId);
   }
 
   @Get(':id')

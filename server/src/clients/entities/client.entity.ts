@@ -1,7 +1,9 @@
+import { Group } from 'src/groups/entities/group.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -57,4 +59,9 @@ export class Client {
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   updatedAt: Date;
+
+  // ===== Relations =====
+  // clients - one-to-many - groups
+  @OneToMany(() => Group, (groups) => groups.client)
+  groups: Group[];
 }

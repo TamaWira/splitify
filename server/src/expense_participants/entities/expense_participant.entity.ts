@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-@Entity()
+@Entity('expense_participants')
 export class ExpenseParticipant {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -22,10 +22,13 @@ export class ExpenseParticipant {
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   share: number;
 
+  // ===== Relations =====
+  // expense_participants > expenses
   @ManyToOne(() => Expense)
   @JoinColumn({ name: 'expense_id' })
   expense: Expense;
 
+  // expense_participants > participants
   @ManyToOne(() => Participant)
   @JoinColumn({ name: 'participant_id' })
   participant: Participant;

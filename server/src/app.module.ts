@@ -8,6 +8,7 @@ import { ParticipantsModule } from './participants/participants.module';
 import { ExpensesModule } from './expenses/expenses.module';
 import { ExpenseParticipantsModule } from './expense_participants/expense_participants.module';
 import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
 import databaseConfig from './config/database.config';
 
 @Module({
@@ -33,6 +34,8 @@ import databaseConfig from './config/database.config';
       synchronize: false,
       autoLoadEntities: true,
     }),
+
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
