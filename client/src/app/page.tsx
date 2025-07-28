@@ -1,19 +1,20 @@
+import { fetchGroupSummaries } from "@/actions/groups";
 import { CreateGroupButton } from "@/components/features/home/create-group-button";
 import { GroupList } from "@/components/features/home/group-list/group-list";
 import { Hero } from "@/components/features/home/hero";
 import { HomeNavbar } from "@/components/features/home/home-navbar";
 import { SplashScreenWithInit } from "@/components/shared/splash-screen-with-init";
-import { groupList } from "@/lib/mock-data";
-import { cookies } from "next/headers";
+import { getSplitifyClientId } from "@/utils/get-splitify-client-id";
 
 export default async function Home() {
-  const cookieStore = await cookies();
-  const clientId = cookieStore.get("splitify_client_id")?.value;
+  const clientId = await getSplitifyClientId();
 
   if (!clientId) return <SplashScreenWithInit />;
 
-  const unsettledGroups = groupList.filter((group) => !group.isSettled);
-  const fulfilledGroups = groupList.filter((group) => group.isSettled);
+  const groups = await fetchGroupSummaries(clientId);
+
+  const unsettledGroups = groups.filter((group) => !group.isSettled);
+  const fulfilledGroups = groups.filter((group) => group.isSettled);
 
   return (
     <div>

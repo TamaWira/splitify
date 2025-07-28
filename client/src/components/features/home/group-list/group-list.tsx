@@ -1,12 +1,12 @@
-import { TGroupList } from "@/app/types/group";
+import { GroupSummary } from "@/types/groups";
+import Link from "next/link";
 import { GroupListCategoryHeader } from "./group-list-category-header";
 import { GroupListRow } from "./group-list-row";
-import Link from "next/link";
 
 type GroupListProps = {
   type: string;
   seeAllHref: string;
-  groups: TGroupList[];
+  groups: GroupSummary[];
 };
 
 export function GroupList({ type, seeAllHref, groups }: GroupListProps) {
