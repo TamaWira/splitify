@@ -10,6 +10,7 @@ import {
 import { GroupsService } from './groups.service';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
+import { CreateGroupWithParticipantsDto } from './dto/create-group-with-participants.dto';
 
 @Controller('groups')
 export class GroupsController {
@@ -18,6 +19,18 @@ export class GroupsController {
   @Post()
   create(@Body() createGroupDto: CreateGroupDto) {
     return this.groupsService.create(createGroupDto);
+  }
+
+  @Post('/with-participants')
+  async createGroupWithParticipants(
+    @Body() createGroupWithParticipantsDto: CreateGroupWithParticipantsDto,
+  ) {
+    const groupDto = createGroupWithParticipantsDto.group;
+    const participantsDto = createGroupWithParticipantsDto.participants;
+    return await this.groupsService.createGroupWithParticipants(
+      groupDto,
+      participantsDto,
+    );
   }
 
   @Get()

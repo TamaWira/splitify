@@ -17,6 +17,9 @@ export class Participant {
   @Column({ type: 'varchar', length: 255 })
   name: string;
 
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  email: string;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 

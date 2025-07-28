@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UpdateClientDto } from './dto/update-client.dto';
 import { Client } from './entities/client.entity';
+import { CreateClientDto } from './dto/create-client.dto';
 
 @Injectable()
 export class ClientsService {
@@ -11,12 +12,12 @@ export class ClientsService {
     private readonly clientRepository: Repository<Client>,
   ) {}
 
-  async create() {
+  async create(createClientDto: CreateClientDto) {
     const result = await this.clientRepository
       .createQueryBuilder()
       .insert()
       .into(Client)
-      .values({})
+      .values(createClientDto)
       .returning('*')
       .execute();
 
