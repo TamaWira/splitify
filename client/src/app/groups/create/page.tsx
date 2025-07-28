@@ -3,6 +3,7 @@ import { CreateGroupNavbar } from "@/components/features/create-group/create-gro
 import { GroupDetailsForm } from "@/components/features/create-group/group-details-form";
 import { ParticipantsDetailsForm } from "@/components/features/create-group/participants-details-form";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function Page() {
   return (
@@ -14,15 +15,10 @@ export default function Page() {
         <ParticipantsDetailsForm />
 
         <div className="grid grid-cols-2 gap-3">
-          <Button variant="outline" className="rounded-full">
-            Cancel
+          <Button variant="outline" className="rounded-full" asChild>
+            <Link href="/">Cancel</Link>
           </Button>
-          <Button
-            type="submit"
-            className="bg-primary-green text-white rounded-full"
-          >
-            Create Group
-          </Button>
+          <Button type="submit">Create Group</Button>
         </div>
       </form>
     </main>

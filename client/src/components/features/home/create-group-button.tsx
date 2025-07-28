@@ -1,11 +1,12 @@
-import { PrimaryButton } from "@/components/shared/primary-button";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export function CreateGroupButton() {
   return (
     <div className="flex justify-center">
-      <PrimaryButton type="link" href="/groups/create">
-        + Create New Group
-      </PrimaryButton>
+      <Button asChild>
+        <Link href="/groups/create">+ Create New Group</Link>
+      </Button>
     </div>
   );
 }

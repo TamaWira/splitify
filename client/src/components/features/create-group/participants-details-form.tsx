@@ -40,8 +40,9 @@ export function ParticipantsDetailsForm() {
         </div>
         <Button
           type="button"
+          variant="outline"
+          className="w-full"
           onClick={handleAddParticipant}
-          className="text-center rounded-full py-2 border border-gray-500/10 w-full bg-white text-black"
         >
           + Add Participant
         </Button>

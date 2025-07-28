@@ -20,10 +20,10 @@ export function GroupDetails({ group }: GroupDetailsProps) {
         </div>
         <div>
           <Button
-            className="flex items-center gap-5 rounded-full"
+            className="flex items-center gap-2 rounded-full"
             variant="outline"
           >
-            <Share />
+            <Share size={16} />
             <p>Share</p>
           </Button>
         </div>
