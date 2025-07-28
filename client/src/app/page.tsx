@@ -4,7 +4,9 @@ import { GroupList } from "@/components/features/home/group-list/group-list";
 import { Hero } from "@/components/features/home/hero";
 import { HomeNavbar } from "@/components/features/home/home-navbar";
 import { SplashScreenWithInit } from "@/components/shared/splash-screen-with-init";
+import { Skeleton } from "@/components/ui/skeleton";
 import { getSplitifyClientId } from "@/utils/get-splitify-client-id";
+import { Suspense } from "react";
 
 export default async function Home() {
   const clientId = await getSplitifyClientId();
@@ -24,11 +26,23 @@ export default async function Home() {
 
         {/* Group List Per Category */}
         {unsettledGroups && unsettledGroups.length > 0 && (
-          <GroupList type="Unsettled" seeAllHref="#" groups={unsettledGroups} />
+          <Suspense fallback={<Skeleton className="h-10 w-full" />}>
+            <GroupList
+              type="Unsettled"
+              seeAllHref="#"
+              groups={unsettledGroups}
+            />
+          </Suspense>
         )}
 
         {fulfilledGroups && fulfilledGroups.length > 0 && (
-          <GroupList type="Fulfilled" seeAllHref="#" groups={fulfilledGroups} />
+          <Suspense fallback={<Skeleton className="h-10 w-full" />}>
+            <GroupList
+              type="Fulfilled"
+              seeAllHref="#"
+              groups={fulfilledGroups}
+            />
+          </Suspense>
         )}
 
         <CreateGroupButton />

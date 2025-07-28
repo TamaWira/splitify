@@ -13,6 +13,7 @@ export const fetchGroupSummaries = async (
       "Content-Type": "application/json",
       Authorization: `Bearer ${clientId}`,
     },
+    cache: "no-store",
   });
 
   if (!response.ok) {
