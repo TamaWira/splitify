@@ -11,8 +11,8 @@ export type GroupSummary = Omit<
   "createdAt" | "updatedAt" | "clientId"
 > & {
   totalAmount: number;
-  participantCount: number;
-  expenseCount: number;
-  isSettled: boolean;
+  participantsCount: number;
+  expensesCount: number;
+  isFullySettled: boolean;
   unsettledAmount: number;
 };

@@ -8,15 +8,15 @@ export function GroupListRowLeftBadges({ group }: { group: GroupSummary }) {
       <Badge variant="success">
         <UserRound size={16} />
         <p>
-          {group.participantCount}{" "}
-          {group.participantCount > 1 ? "People" : "Person"}
+          {group.participantsCount}{" "}
+          {group.participantsCount > 1 ? "People" : "Person"}
         </p>
       </Badge>
       <Badge variant="primary">
         <CircleDollarSign size={16} />
         <p>
-          {group.expenseCount} Expense
-          {group.expenseCount > 1 ? "s" : ""}
+          {group.expensesCount} Expense
+          {group.expensesCount > 1 ? "s" : ""}
         </p>
       </Badge>
     </div>

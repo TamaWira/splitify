@@ -15,8 +15,8 @@ export default async function Home() {
 
   const groups = await fetchGroupSummaries(clientId);
 
-  const unsettledGroups = groups.filter((group) => !group.isSettled);
-  const fulfilledGroups = groups.filter((group) => group.isSettled);
+  const unsettledGroups = groups.filter((group) => !group.isFullySettled);
+  const fulfilledGroups = groups.filter((group) => group.isFullySettled);
 
   return (
     <div>
