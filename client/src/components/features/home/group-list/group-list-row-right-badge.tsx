@@ -1,5 +1,5 @@
-import { Badge } from "@/app/components/ui/badge";
 import { TGroupList } from "@/app/types/group";
+import { Badge } from "@/components/ui/badge";
 
 export function GroupListRowRightBadge({ group }: { group: TGroupList }) {
   return (

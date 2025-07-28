@@ -4,7 +4,7 @@ type NavbarContainerProps = {
 
 export function NavbarContainer({ children }: NavbarContainerProps) {
   return (
-    <header className="h-[50px] bg-white w-full shadow px-5 flex items-center">
+    <header className="h-[50px] bg-white w-full shadow px-5 flex items-center gap-5">
       {children}
     </header>
   );

@@ -1,3 +1,4 @@
+import { CreateGroupButton } from "@/components/features/home/create-group-button";
 import { GroupList } from "@/components/features/home/group-list/group-list";
 import { Hero } from "@/components/features/home/hero";
 import { HomeNavbar } from "@/components/features/home/home-navbar";
@@ -16,13 +17,20 @@ export default async function Home() {
 
   return (
     <div>
-      <HomeNavbar />
-      <main className="px-5 py-10 space-y-10 min-h-screen">
+      <main className="px-5 pb-10 pt-[80px] space-y-10 min-h-screen">
+        <HomeNavbar />
         <Hero />
 
         {/* Group List Per Category */}
-        <GroupList type="Unsettled" seeAllHref="#" groups={unsettledGroups} />
-        <GroupList type="Fulfilled" seeAllHref="#" groups={fulfilledGroups} />
+        {unsettledGroups && unsettledGroups.length > 0 && (
+          <GroupList type="Unsettled" seeAllHref="#" groups={unsettledGroups} />
+        )}
+
+        {fulfilledGroups && fulfilledGroups.length > 0 && (
+          <GroupList type="Fulfilled" seeAllHref="#" groups={fulfilledGroups} />
+        )}
+
+        <CreateGroupButton />
       </main>
     </div>
   );

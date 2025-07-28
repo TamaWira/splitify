@@ -1,6 +1,7 @@
 import { TGroupList } from "@/app/types/group";
 import { GroupListCategoryHeader } from "./group-list-category-header";
 import { GroupListRow } from "./group-list-row";
+import Link from "next/link";
 
 type GroupListProps = {
   type: string;
@@ -15,7 +16,11 @@ export function GroupList({ type, seeAllHref, groups }: GroupListProps) {
 
       <div className="space-y-2">
         {groups.map((group) => (
-          <GroupListRow key={group.id} group={group} />
+          <div key={group.id}>
+            <Link href={`/groups/${group.id}`}>
+              <GroupListRow group={group} />
+            </Link>
+          </div>
         ))}
       </div>
     </div>
