@@ -24,12 +24,22 @@ export class ExpenseParticipant {
 
   // ===== Relations =====
   // expense_participants > expenses
-  @ManyToOne(() => Expense)
+  @ManyToOne(() => Expense, (expense) => expense.expenseParticipants, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   @JoinColumn({ name: 'expense_id' })
   expense: Expense;
 
   // expense_participants > participants
-  @ManyToOne(() => Participant)
+  @ManyToOne(
+    () => Participant,
+    (participant) => participant.expenseParticipants,
+    {
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
+    },
+  )
   @JoinColumn({ name: 'participant_id' })
   participant: Participant;
 }

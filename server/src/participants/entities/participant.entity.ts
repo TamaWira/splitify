@@ -34,7 +34,9 @@ export class Participant {
 
   // ===== Relations =====
   // participants > groups
-  @ManyToOne(() => Group, (group) => group.participants)
+  @ManyToOne(() => Group, (group) => group.participants, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'group_id' })
   group: Group;
 

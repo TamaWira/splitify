@@ -43,12 +43,18 @@ export class Expense {
 
   // ===== Relations =====
   // expenses < groups
-  @ManyToOne(() => Group, (group) => group.expenses)
+  @ManyToOne(() => Group, (group) => group.expenses, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   @JoinColumn({ name: 'group_id' })
   group: Group;
 
   // expenses < participants
-  @ManyToOne(() => Participant, (participant) => participant.expenses)
+  @ManyToOne(() => Participant, (participant) => participant.expenses, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   @JoinColumn({ name: 'paid_by' })
   participants: Participant[];
 

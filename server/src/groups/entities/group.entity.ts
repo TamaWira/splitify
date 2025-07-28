@@ -31,7 +31,10 @@ export class Group {
 
   // ===== Relations =====
   // groups - many-to-one - clients
-  @ManyToOne(() => Client, (client) => client.groups)
+  @ManyToOne(() => Client, (client) => client.groups, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   @JoinColumn({ name: 'client_id' })
   client: Client;
 
