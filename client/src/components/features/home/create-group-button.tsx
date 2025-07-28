@@ -4,7 +4,7 @@ export function CreateGroupButton() {
   return (
     <div className="flex justify-center">
       <PrimaryButton type="link" href="/groups/create">
-        + Create Group
+        + Create New Group
       </PrimaryButton>
     </div>
   );

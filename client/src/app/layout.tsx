@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import ClientInitializer from "./components/shared/client-initializer";
 import "./globals.css";
 
 const geistSans = Inter({

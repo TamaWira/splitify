@@ -18,7 +18,7 @@ export function PrimaryButton({
     <Button
       type={type !== "link" ? type : undefined}
       asChild={type === "link"}
-      className={`bg-primary-green text-white px-4 py-2 rounded-md hover:bg-primary-green-dark ${className}`}
+      className={`bg-primary-green text-white px-6 py-2 rounded-full hover:bg-primary-green-dark ${className}`}
     >
       {type === "link" ? (
         <Link href={href!} className="text-white">

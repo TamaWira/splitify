@@ -1,5 +1,4 @@
-import { Optional } from '@nestjs/common';
-import { IsEmail, IsString, IsUUID } from 'class-validator';
+import { IsEmail, IsOptional, IsString, IsUUID } from 'class-validator';
 
 export class CreateParticipantDto {
   @IsUUID()
@@ -8,7 +7,7 @@ export class CreateParticipantDto {
   @IsString()
   name: string;
 
-  @Optional()
+  @IsOptional()
   @IsEmail()
-  email: string;
+  email?: string;
 }
