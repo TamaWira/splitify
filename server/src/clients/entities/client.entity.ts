@@ -5,6 +5,7 @@ import {
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity('clients')
@@ -52,7 +53,7 @@ export class Client {
   })
   createdAt: Date;
 
-  @Column({
+  @UpdateDateColumn({
     name: 'updated_at',
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
@@ -62,6 +63,6 @@ export class Client {
 
   // ===== Relations =====
   // clients - one-to-many - groups
-  @OneToMany(() => Group, (groups) => groups.client)
+  @OneToMany(() => Group, (groups) => groups.clientId)
   groups: Group[];
 }

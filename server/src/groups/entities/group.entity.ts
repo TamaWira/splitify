@@ -17,8 +17,13 @@ export class Group {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ name: 'client_id' })
-  clientId: string;
+  // groups - many-to-one - clients
+  @ManyToOne(() => Client, (client) => client.groups, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn({ name: 'client_id' })
+  clientId: Client;
 
   @Column()
   title: string;
@@ -30,19 +35,11 @@ export class Group {
   updatedAt: Date;
 
   // ===== Relations =====
-  // groups - many-to-one - clients
-  @ManyToOne(() => Client, (client) => client.groups, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  })
-  @JoinColumn({ name: 'client_id' })
-  client: Client;
-
   // groups - one-to-many - participants
-  @OneToMany(() => Participant, (participants) => participants.group)
+  @OneToMany(() => Participant, (participants) => participants.groupId)
   participants: Participant[];
 
   // groups - one-to-many - expenses
-  @OneToMany(() => Expense, (expenses) => expenses.group)
+  @OneToMany(() => Expense, (expenses) => expenses.groupId)
   expenses: Expense[];
 }

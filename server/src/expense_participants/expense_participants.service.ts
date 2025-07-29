@@ -17,7 +17,11 @@ export class ExpenseParticipantsService {
       .createQueryBuilder()
       .insert()
       .into(ExpenseParticipant)
-      .values(createExpenseParticipantDto)
+      .values({
+        expenseId: { id: createExpenseParticipantDto.expenseId },
+        participantId: { id: createExpenseParticipantDto.participantId },
+        share: createExpenseParticipantDto.share,
+      })
       .returning('*')
       .execute();
 
@@ -45,7 +49,11 @@ export class ExpenseParticipantsService {
     const result = await this.expenseParticipantRepository
       .createQueryBuilder()
       .update(ExpenseParticipant)
-      .set(updateExpenseParticipantDto)
+      .set({
+        expenseId: { id: updateExpenseParticipantDto.expenseId },
+        participantId: { id: updateExpenseParticipantDto.participantId },
+        share: updateExpenseParticipantDto.share,
+      })
       .where('id = :id', { id })
       .returning('*')
       .execute();

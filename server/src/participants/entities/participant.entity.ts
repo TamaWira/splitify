@@ -17,8 +17,12 @@ export class Participant {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ name: 'group_id', type: 'uuid' })
-  groupId: string;
+  // participants > groups
+  @ManyToOne(() => Group, (group) => group.participants, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'group_id' })
+  groupId: Group;
 
   @Column({ type: 'varchar', length: 255 })
   name: string;
@@ -33,21 +37,14 @@ export class Participant {
   updatedAt: Date;
 
   // ===== Relations =====
-  // participants > groups
-  @ManyToOne(() => Group, (group) => group.participants, {
-    onDelete: 'CASCADE',
-  })
-  @JoinColumn({ name: 'group_id' })
-  group: Group;
-
   // participants < expenses
-  @OneToMany(() => Expense, (expense) => expense.participants)
+  @OneToMany(() => Expense, (expense) => expense.paidBy)
   expenses: Expense[];
 
   // participants < expense_participants
   @OneToMany(
     () => ExpenseParticipant,
-    (expenseParticipant) => expenseParticipant.participant,
+    (expenseParticipant) => expenseParticipant.participantId,
   )
   expenseParticipants: ExpenseParticipant[];
 }

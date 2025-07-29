@@ -20,7 +20,10 @@ export class GroupsService {
       .createQueryBuilder()
       .insert()
       .into(Group)
-      .values(createGroupDto)
+      .values({
+        clientId: { id: createGroupDto.clientId },
+        title: createGroupDto.title,
+      })
       .returning('*')
       .execute();
 
@@ -40,14 +43,17 @@ export class GroupsService {
   ): Promise<Group> {
     return await this.groupRepository.manager.transaction(async (manager) => {
       // 1. Create the group
-      const group = manager.create(Group, groupDto);
+      const group = manager.create(Group, {
+        clientId: { id: groupDto.clientId },
+        title: groupDto.title,
+      });
       await manager.save(group); // Now we have group.id
 
       // 2. Create participants
       const participants = participantsDto.map((p) => {
         return manager.create(Participant, {
           ...p,
-          groupId: group.id, // or groupId: group.id
+          groupId: { id: group.id },
         });
       });
 
@@ -68,8 +74,8 @@ export class GroupsService {
       .leftJoin('g.expenses', 'e')
       .select('g.id', 'id')
       .addSelect('g.title', 'title')
-      .addSelect('COUNT(DISTINCT p.id)', 'participantCount')
-      .addSelect('COUNT(DISTINCT e.id)', 'expenseCount')
+      .addSelect('COUNT(DISTINCT p.id)', 'participantsCount')
+      .addSelect('COUNT(DISTINCT e.id)', 'expensesCount')
       .addSelect('COALESCE(SUM(e.amount), 0)', 'totalAmount')
       .addSelect(
         'COALESCE(SUM(e.amount) FILTER (WHERE e.is_settled = false), 0)',
@@ -86,11 +92,48 @@ export class GroupsService {
     return await this.groupRepository.findOneBy({ id });
   }
 
+  async findOneWithSummary(id: string): Promise<GroupSummaryDto> {
+    const group = (await this.groupRepository
+      .createQueryBuilder('g')
+      .leftJoin('g.participants', 'p')
+      .leftJoin('g.expenses', 'e')
+      .select('g.id', 'id')
+      .addSelect('g.title', 'title')
+      .addSelect('COUNT(DISTINCT p.id)', 'participantsCount')
+      .addSelect('COUNT(DISTINCT e.id)', 'expensesCount')
+      .addSelect('COALESCE(SUM(e.amount), 0)', 'totalAmount')
+      .addSelect(
+        'COALESCE(SUM(e.amount) FILTER (WHERE e.is_settled = false), 0)',
+        'unsettledAmount',
+      )
+      .addSelect('BOOL_AND(e.is_settled)', 'isFullySettled')
+      .where('g.id = :id', { id })
+      .groupBy('g.id')
+      .addGroupBy('g.title')
+      .getRawOne()) as GroupSummaryDto | null;
+
+    if (!group) {
+      throw new Error('Group not found');
+    }
+
+    return {
+      id: group.id,
+      title: group.title,
+      participantsCount: group.participantsCount,
+      expensesCount: group.expensesCount,
+      totalAmount: group.totalAmount,
+      unsettledAmount: group.unsettledAmount,
+      isFullySettled: group.isFullySettled,
+    };
+  }
+
   async update(id: string, updateGroupDto: UpdateGroupDto) {
     const result = await this.groupRepository
       .createQueryBuilder()
       .update(Group)
-      .set(updateGroupDto)
+      .set({
+        title: updateGroupDto.title,
+      })
       .where('id = :id', { id })
       .returning('*')
       .execute();

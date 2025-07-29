@@ -52,6 +52,11 @@ export class GroupsController {
     return this.groupsService.findOne(id);
   }
 
+  @Get(':id/summary')
+  async findOneWithSummary(@Param('id') id: string) {
+    return await this.groupsService.findOneWithSummary(id);
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateGroupDto: UpdateGroupDto) {
     return this.groupsService.update(id, updateGroupDto);

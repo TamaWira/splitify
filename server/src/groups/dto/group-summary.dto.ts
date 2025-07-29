@@ -1,9 +1,9 @@
 export class GroupSummaryDto {
   id: string;
   title: string;
-  participantCount: number;
-  expenseCount: number;
-  amount: number;
+  participantsCount: number;
+  expensesCount: number;
+  totalAmount: number;
   unsettledAmount: number;
-  isSettled: boolean;
+  isFullySettled: boolean;
 }

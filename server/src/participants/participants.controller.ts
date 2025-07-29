@@ -6,10 +6,12 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { ParticipantsService } from './participants.service';
 import { CreateParticipantDto } from './dto/create-participant.dto';
 import { UpdateParticipantDto } from './dto/update-participant.dto';
+import { FilterParticipantsDto } from './dto/filter-participants.dto';
 
 @Controller('participants')
 export class ParticipantsController {
@@ -21,8 +23,11 @@ export class ParticipantsController {
   }
 
   @Get()
-  findAll() {
-    return this.participantsService.findAll();
+  findAll(@Query('groupId') groupId: string) {
+    const filter: FilterParticipantsDto = {
+      groupId,
+    };
+    return this.participantsService.findAll(filter);
   }
 
   @Get(':id')

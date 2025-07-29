@@ -4,6 +4,7 @@ import { UpdateParticipantDto } from './dto/update-participant.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Participant } from './entities/participant.entity';
 import { Repository } from 'typeorm';
+import { FilterParticipantsDto } from './dto/filter-participants.dto';
 
 @Injectable()
 export class ParticipantsService {
@@ -17,7 +18,11 @@ export class ParticipantsService {
       .createQueryBuilder()
       .insert()
       .into(Participant)
-      .values(createParticipantDto)
+      .values({
+        groupId: { id: createParticipantDto.groupId },
+        name: createParticipantDto.name,
+        email: createParticipantDto.email,
+      })
       .returning('*')
       .execute();
 
@@ -30,8 +35,18 @@ export class ParticipantsService {
     return insertedParticipant;
   }
 
-  async findAll() {
-    return await this.participantRepository.find();
+  async findAll(filter: FilterParticipantsDto): Promise<Participant[]> {
+    const { groupId } = filter;
+
+    const query = this.participantRepository.createQueryBuilder('participant');
+
+    if (groupId) {
+      query.andWhere('participant.groupId = :groupId', { groupId });
+    }
+
+    const data = await query.getMany();
+
+    return data;
   }
 
   async findOne(id: string) {
@@ -44,7 +59,11 @@ export class ParticipantsService {
       throw new Error('Participant not found');
     }
 
-    await this.participantRepository.update(id, updateParticipantDto);
+    await this.participantRepository.update(id, {
+      groupId: { id: updateParticipantDto.groupId },
+      name: updateParticipantDto.name,
+      email: updateParticipantDto.email,
+    });
     return await this.participantRepository.findOneBy({ id });
   }
 

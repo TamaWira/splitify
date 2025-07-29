@@ -6,10 +6,12 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { ExpensesService } from './expenses.service';
 import { CreateExpenseDto } from './dto/create-expense.dto';
 import { UpdateExpenseDto } from './dto/update-expense.dto';
+import { FilterExpenseDto } from './dto/filter-expense.dto';
 
 @Controller('expenses')
 export class ExpensesController {
@@ -21,8 +23,29 @@ export class ExpensesController {
   }
 
   @Get()
-  findAll() {
-    return this.expensesService.findAll();
+  findAll(
+    @Query('groupId') groupId: string,
+    @Query('paidBy') paidBy: string,
+    @Query('category') category: string,
+    @Query('isSettled') isSettled: string,
+    @Query('page') page: number,
+    @Query('limit') limit: number,
+  ) {
+    const filter: FilterExpenseDto = {
+      groupId,
+      paidBy,
+      category,
+      isSettled,
+      page,
+      limit,
+    };
+
+    return this.expensesService.findAll(filter);
+  }
+
+  @Get('/summary')
+  async findByGroupIdWithSummaries(@Query('groupId') groupId: string) {
+    return await this.expensesService.findByGroupIdWithSummaries(groupId);
   }
 
   @Get(':id')
