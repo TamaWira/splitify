@@ -1,30 +1,60 @@
+"use client";
+
 import { CheckboxWithLabel } from "@/components/shared/checkbox-with-label";
 import { Card } from "@/components/ui/card";
+import { useState } from "react";
+import { SplitDetailsFormHeader } from "./split-details-form-header";
 
-const mockParticipants = [
-  { value: "bayu", label: "Bayu" },
-  { value: "bernika", label: "Bernika" },
-  { value: "ken", label: "Ken" },
-];
+type SplitDetailsFormProps = {
+  participantsOptions: { value: string; label: string }[];
+  isFetchingParticipants: boolean;
+  amount: number;
+};
 
-export function SplitDetailsForm() {
+export function SplitDetailsForm({
+  participantsOptions,
+  isFetchingParticipants,
+  amount,
+}: SplitDetailsFormProps) {
+  // ===== States =====
+  const [checkedList, setCheckedList] = useState<string[]>([]);
+
+  // ===== Derived States =====
+  const totalChecked = checkedList.length;
+  const splitAmount = amount / totalChecked;
+
+  // ===== Handlers =====
+  const handleCheckboxChange = (value: string) => {
+    if (checkedList.includes(value)) {
+      setCheckedList(checkedList.filter((item) => item !== value));
+    } else {
+      setCheckedList([...checkedList, value]);
+    }
+  };
+
   return (
     <Card>
       <div className="space-y-5">
-        <div>
-          <h2 className="font-semibold text-xl">Split Between</h2>
-          <p className="text-gray-500/80">
-            Select participants to split this expense
-          </p>
-        </div>
+        <SplitDetailsFormHeader
+          totalChecked={totalChecked}
+          splitAmount={splitAmount}
+        />
         <div className="flex flex-col gap-3">
-          {mockParticipants.map((participant) => (
-            <CheckboxWithLabel
-              key={participant.value}
-              id={participant.value}
-              label={participant.label}
-            />
-          ))}
+          {isFetchingParticipants ? (
+            <div>Loading...</div>
+          ) : (
+            participantsOptions &&
+            participantsOptions.length > 0 &&
+            participantsOptions.map((participant) => (
+              <CheckboxWithLabel
+                key={participant.value}
+                id={participant.value}
+                label={participant.label}
+                checked={checkedList.includes(participant.value)}
+                onChange={() => handleCheckboxChange(participant.value)}
+              />
+            ))
+          )}
         </div>
       </div>
     </Card>

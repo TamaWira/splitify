@@ -16,34 +16,47 @@ const mockParticipants = [
   { value: "ken", label: "Ken" },
 ];
 
-export function ExpenseDetailsForm() {
+type ExpenseDetailsFormProps = {
+  participantOptions: { value: string; label: string }[];
+  handleAmountChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+};
+
+export function ExpenseDetailsForm({
+  participantOptions,
+  handleAmountChange,
+}: ExpenseDetailsFormProps) {
   return (
     <Card>
       <div className="space-y-5">
         <h2 className="font-semibold text-xl">Expense Details</h2>
         <InputWithLabel
+          required
           label="Expense Title"
           placeholder="e.g., Dinner at restaurant"
           type="text"
           name="title"
         />
         <InputWithLabel
+          required
           label="Amount"
           placeholder="0.00"
           type="number"
           name="amount"
+          onChange={handleAmountChange}
         />
         <SelectWithLabel
+          required
           label="Category"
           placeholder="Select category"
           name="category"
           options={mockCategories}
         />
         <SelectWithLabel
+          required
           label="Paid By"
           placeholder="Who paid?"
-          name="paidBy"
-          options={mockParticipants}
+          name="paid-by"
+          options={participantOptions}
         />
       </div>
     </Card>

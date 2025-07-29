@@ -7,6 +7,7 @@ import {
 } from "../ui/select";
 
 type SelectWithLabelProps = {
+  required?: boolean;
   label: string;
   name: string;
   placeholder: string;
@@ -14,6 +15,7 @@ type SelectWithLabelProps = {
 };
 
 export function SelectWithLabel({
+  required,
   label,
   name,
   placeholder,
@@ -24,7 +26,7 @@ export function SelectWithLabel({
       <label className="text-sm font-semibold text-gray-700" htmlFor={name}>
         {label}
       </label>
-      <Select name={name}>
+      <Select name={name} required={required}>
         <SelectTrigger>
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>

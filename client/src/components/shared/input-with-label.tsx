@@ -1,6 +1,7 @@
 import { Input } from "../ui/input";
 
 export type InputWithLabelProps = {
+  required?: boolean;
   type: string;
   label: string;
   name: string;
@@ -10,6 +11,7 @@ export type InputWithLabelProps = {
 };
 
 export function InputWithLabel({
+  required,
   type,
   label,
   name,
@@ -23,6 +25,7 @@ export function InputWithLabel({
         {label}
       </label>
       <Input
+        required={required}
         id={name}
         type={type}
         name={name}

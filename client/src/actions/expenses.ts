@@ -1,6 +1,6 @@
 "use server";
 
-import { Expense } from "@/types/expenses";
+import { CreateExpenseDto, Expense } from "@/types/expenses";
 
 export const fetchExpensesByGroupId = async (
   groupId: string,
@@ -12,17 +12,14 @@ export const fetchExpensesByGroupId = async (
   return data;
 };
 
-export const addExpense = async (groupId: string, formData: FormData) => {
+export const addExpense = async (payload: CreateExpenseDto) => {
   try {
     const response = await fetch(`http://localhost:8000/api/expenses`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        groupId,
-        ...Object.fromEntries(formData),
-      }),
+      body: JSON.stringify(payload),
     });
     const data = await response.json();
     return data;
