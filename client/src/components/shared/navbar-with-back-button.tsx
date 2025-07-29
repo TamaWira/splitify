@@ -1,3 +1,11 @@
+"use client";
+
+/**
+ * This component is a client component because we use Next.js Link
+ * component with dynamic props (backHref).
+ * [Still finding the resource]
+ */
+
 import { ArrowLeft } from "lucide-react";
 import { NavbarContainer } from "./navbar-container";
 import Link from "next/link";
