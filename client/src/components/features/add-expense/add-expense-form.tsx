@@ -1,5 +1,7 @@
 import { addExpense } from "@/actions/expenses";
+import { AddExpenseFormActionButtonsClientWrapper } from "./add-expense-form-action-buttons-client-wrapper";
 import { ExpenseDetailsForm } from "./expense-details-form";
+import { SplitDetailsForm } from "./split-details-form";
 
 type AddExpenseProps = {
   groupId: string;
@@ -10,10 +12,9 @@ export function AddExpenseForm({ groupId }: AddExpenseProps) {
 
   return (
     <form action={formAction} className="space-y-10">
-      {/* ExpenseDetailsForm */}
       <ExpenseDetailsForm />
-      {/* SplitDetailsForm */}
-      {/* FormActionsButtons */}
+      <SplitDetailsForm />
+      <AddExpenseFormActionButtonsClientWrapper />
     </form>
   );
 }

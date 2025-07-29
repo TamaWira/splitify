@@ -10,7 +10,7 @@ type SelectWithLabelProps = {
   label: string;
   name: string;
   placeholder: string;
-  options: any[];
+  options: { value: string; label: string }[];
 };
 
 export function SelectWithLabel({
