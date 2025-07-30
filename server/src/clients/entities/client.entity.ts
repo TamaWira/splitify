@@ -13,37 +13,57 @@ export class Client {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ nullable: true, name: 'device_type' })
+  @Column({ nullable: true, name: 'device_type', type: 'varchar', length: 255 })
   deviceType: string;
 
-  @Column({ nullable: true, name: 'device_name' })
+  @Column({ nullable: true, name: 'device_name', type: 'varchar', length: 255 })
   deviceName: string;
 
-  @Column({ nullable: true, name: 'os_name' })
+  @Column({ nullable: true, name: 'os_name', type: 'varchar', length: 255 })
   osName: string;
 
-  @Column({ nullable: true, name: 'os_version' })
+  @Column({ nullable: true, name: 'os_version', type: 'varchar', length: 255 })
   osVersion: string;
 
-  @Column({ nullable: true, name: 'browser_name' })
+  @Column({
+    nullable: true,
+    name: 'browser_name',
+    type: 'varchar',
+    length: 255,
+  })
   browserName: string;
 
-  @Column({ nullable: true, name: 'browser_version' })
+  @Column({
+    nullable: true,
+    name: 'browser_version',
+    type: 'varchar',
+    length: 255,
+  })
   browserVersion: string;
 
-  @Column({ nullable: true, type: 'text', name: 'user_agent' })
+  @Column({
+    nullable: true,
+    name: 'user_agent',
+    type: 'varchar',
+    length: 255,
+  })
   userAgent: string;
 
-  @Column({ nullable: true, name: 'screen_resolution' })
+  @Column({
+    nullable: true,
+    name: 'screen_resolution',
+    type: 'varchar',
+    length: 255,
+  })
   screenResolution: string;
 
-  @Column({ nullable: true, name: 'language' })
+  @Column({ nullable: true, name: 'language', type: 'varchar', length: 255 })
   language: string;
 
-  @Column({ nullable: true, name: 'timezone' })
+  @Column({ nullable: true, name: 'timezone', type: 'varchar', length: 255 })
   timezone: string;
 
-  @Column({ nullable: true, name: 'ip_address' })
+  @Column({ nullable: true, name: 'ip_address', type: 'varchar', length: 255 })
   ipAddress: string;
 
   @CreateDateColumn({

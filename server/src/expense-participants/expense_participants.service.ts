@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateExpenseParticipantDto } from './dto/create-expense_participant.dto';
 import { UpdateExpenseParticipantDto } from './dto/update-expense_participant.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ExpenseParticipant } from './entities/expense_participant.entity';
+import { ExpenseParticipant } from './entities/expense-participant.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -18,8 +18,8 @@ export class ExpenseParticipantsService {
       .insert()
       .into(ExpenseParticipant)
       .values({
-        expenseId: { id: createExpenseParticipantDto.expenseId },
-        participantId: { id: createExpenseParticipantDto.participantId },
+        expenseId: createExpenseParticipantDto.expenseId,
+        participantId: createExpenseParticipantDto.participantId,
         share: createExpenseParticipantDto.share,
       })
       .returning('*')
@@ -50,8 +50,8 @@ export class ExpenseParticipantsService {
       .createQueryBuilder()
       .update(ExpenseParticipant)
       .set({
-        expenseId: { id: updateExpenseParticipantDto.expenseId },
-        participantId: { id: updateExpenseParticipantDto.participantId },
+        expenseId: updateExpenseParticipantDto.expenseId,
+        participantId: updateExpenseParticipantDto.participantId,
         share: updateExpenseParticipantDto.share,
       })
       .where('id = :id', { id })

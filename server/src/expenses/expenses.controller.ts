@@ -1,17 +1,17 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
   Query,
 } from '@nestjs/common';
-import { ExpensesService } from './expenses.service';
 import { CreateExpenseDto } from './dto/create-expense.dto';
-import { UpdateExpenseDto } from './dto/update-expense.dto';
 import { FilterExpenseDto } from './dto/filter-expense.dto';
+import { UpdateExpenseDto } from './dto/update-expense.dto';
+import { ExpensesService } from './expenses.service';
 
 @Controller('expenses')
 export class ExpensesController {
@@ -49,8 +49,14 @@ export class ExpensesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.expensesService.findOne(id);
+  findOne(
+    @Param('id') id: string,
+    @Query('includeParticipants') includeParticipants?: string,
+  ) {
+    const includeParticipantsBool = includeParticipants === 'true';
+    return this.expensesService.findOne(id, {
+      includeParticipants: includeParticipantsBool,
+    });
   }
 
   @Patch(':id')

@@ -21,7 +21,7 @@ export class GroupsService {
       .insert()
       .into(Group)
       .values({
-        clientId: { id: createGroupDto.clientId },
+        clientId: createGroupDto.clientId,
         title: createGroupDto.title,
       })
       .returning('*')
@@ -44,7 +44,7 @@ export class GroupsService {
     return await this.groupRepository.manager.transaction(async (manager) => {
       // 1. Create the group
       const group = manager.create(Group, {
-        clientId: { id: groupDto.clientId },
+        clientId: groupDto.clientId,
         title: groupDto.title,
       });
       await manager.save(group); // Now we have group.id
@@ -53,7 +53,7 @@ export class GroupsService {
       const participants = participantsDto.map((p) => {
         return manager.create(Participant, {
           ...p,
-          groupId: { id: group.id },
+          groupId: group.id,
         });
       });
 

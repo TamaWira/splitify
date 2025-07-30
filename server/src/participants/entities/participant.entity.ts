@@ -1,4 +1,4 @@
-import { ExpenseParticipant } from 'src/expense_participants/entities/expense_participant.entity';
+import { ExpenseParticipant } from 'src/expense-participants/entities/expense-participant.entity';
 import { Expense } from 'src/expenses/entities/expense.entity';
 import { Group } from 'src/groups/entities/group.entity';
 import {
@@ -17,12 +17,8 @@ export class Participant {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  // participants > groups
-  @ManyToOne(() => Group, (group) => group.participants, {
-    onDelete: 'CASCADE',
-  })
-  @JoinColumn({ name: 'group_id' })
-  groupId: Group;
+  @Column({ name: 'group_id', type: 'uuid' })
+  groupId: string;
 
   @Column({ type: 'varchar', length: 255 })
   name: string;
@@ -37,6 +33,13 @@ export class Participant {
   updatedAt: Date;
 
   // ===== Relations =====
+  // participants > groups
+  @ManyToOne(() => Group, (group) => group.participants, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'group_id' })
+  group: Group;
+
   // participants < expenses
   @OneToMany(() => Expense, (expense) => expense.paidBy)
   expenses: Expense[];

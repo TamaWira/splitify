@@ -1,5 +1,6 @@
 export class ExpenseSummaryDto {
   id: string;
+  groupId: string;
   title: string;
   total_amount: number;
   category: string;

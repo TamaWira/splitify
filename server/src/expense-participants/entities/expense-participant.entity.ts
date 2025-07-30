@@ -13,13 +13,23 @@ export class ExpenseParticipant {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column({ name: 'expense_id', type: 'uuid' })
+  expenseId: string;
+
+  @Column({ name: 'participant_id', type: 'uuid' })
+  participantId: string;
+
+  @Column({ type: 'decimal', precision: 10, scale: 2 })
+  share: number;
+
+  // ===== Relations =====
   // expense_participants > expenses
   @ManyToOne(() => Expense, (expense) => expense.expenseParticipants, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
   @JoinColumn({ name: 'expense_id' })
-  expenseId: Expense;
+  expense: Expense;
 
   // expense_participants > participants
   @ManyToOne(
@@ -31,8 +41,5 @@ export class ExpenseParticipant {
     },
   )
   @JoinColumn({ name: 'participant_id' })
-  participantId: Participant;
-
-  @Column({ type: 'decimal', precision: 10, scale: 2 })
-  share: number;
+  participant: Participant;
 }

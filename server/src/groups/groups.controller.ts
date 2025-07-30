@@ -14,6 +14,7 @@ import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
 import { CreateGroupWithParticipantsDto } from './dto/create-group-with-participants.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { RequestWithUser } from 'src/auth/auth.types';
 
 @Controller('groups')
 export class GroupsController {
@@ -43,7 +44,7 @@ export class GroupsController {
 
   @UseGuards(AuthGuard)
   @Get('/summary')
-  async findAllWithSummary(@Req() req) {
+  async findAllWithSummary(@Req() req: RequestWithUser) {
     return await this.groupsService.findAllWithSummary(req.user.clientId);
   }
 

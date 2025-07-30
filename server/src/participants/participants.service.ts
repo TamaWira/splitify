@@ -19,7 +19,7 @@ export class ParticipantsService {
       .insert()
       .into(Participant)
       .values({
-        groupId: { id: createParticipantDto.groupId },
+        groupId: createParticipantDto.groupId,
         name: createParticipantDto.name,
         email: createParticipantDto.email,
       })
@@ -60,7 +60,7 @@ export class ParticipantsService {
     }
 
     await this.participantRepository.update(id, {
-      groupId: { id: updateParticipantDto.groupId },
+      groupId: updateParticipantDto.groupId,
       name: updateParticipantDto.name,
       email: updateParticipantDto.email,
     });

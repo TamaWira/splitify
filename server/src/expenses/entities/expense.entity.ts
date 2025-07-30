@@ -1,4 +1,4 @@
-import { ExpenseParticipant } from 'src/expense_participants/entities/expense_participant.entity';
+import { ExpenseParticipant } from 'src/expense-participants/entities/expense-participant.entity';
 import { Group } from 'src/groups/entities/group.entity';
 import { Participant } from 'src/participants/entities/participant.entity';
 import {
@@ -17,21 +17,13 @@ export class Expense {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  // expenses < groups
-  @ManyToOne(() => Group, (group) => group.expenses, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  })
-  @JoinColumn({ name: 'group_id' })
-  groupId: Group;
+  // Foreign Key
+  @Column({ name: 'group_id', type: 'uuid' })
+  groupId: string;
 
-  // expenses < participants
-  @ManyToOne(() => Participant, (participant) => participant.expenses, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  })
-  @JoinColumn({ name: 'paid_by' })
-  paidBy: Participant;
+  // Foreign Key
+  @Column({ name: 'paid_by', type: 'uuid' })
+  paidBy: string;
 
   @Column({ name: 'title', type: 'varchar', length: 255 })
   title: string;
@@ -52,10 +44,26 @@ export class Expense {
   updatedAt: Date;
 
   // ===== Relations =====
-  // expense > expense_participants
+  // expenses > participants
+  @ManyToOne(() => Participant, (participant) => participant.expenses, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn({ name: 'paid_by' })
+  paidByParticipant: Participant;
+
+  // expenses > groups
+  @ManyToOne(() => Group, (group) => group.expenses, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn({ name: 'group_id' })
+  group: Group;
+
+  // expense < expense_participants
   @OneToMany(
     () => ExpenseParticipant,
-    (expenseParticipant) => expenseParticipant.expenseId,
+    (expenseParticipant) => expenseParticipant.expense,
   )
   expenseParticipants: ExpenseParticipant[];
 }

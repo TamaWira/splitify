@@ -1,12 +1,15 @@
-import { Injectable } from '@nestjs/common';
-import { CreateExpenseDto } from './dto/create-expense.dto';
-import { UpdateExpenseDto } from './dto/update-expense.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Expense } from './entities/expense.entity';
+import { ExpenseParticipant } from 'src/expense-participants/entities/expense-participant.entity';
 import { Repository } from 'typeorm';
-import { FilterExpenseDto } from './dto/filter-expense.dto';
-import { ExpenseParticipant } from 'src/expense_participants/entities/expense_participant.entity';
+import { CreateExpenseDto } from './dto/create-expense.dto';
+import { ExpenseDto } from './dto/expense-basic.dto';
 import { ExpenseSummaryDto } from './dto/expense-summary.dto';
+import { ExpenseWithParticipantsDto } from './dto/expense-with-participants.dto';
+import { FilterExpenseDto } from './dto/filter-expense.dto';
+import { FilterFindOneExpenseDto } from './dto/filter-find-one-expense.dto';
+import { UpdateExpenseDto } from './dto/update-expense.dto';
+import { Expense } from './entities/expense.entity';
 
 @Injectable()
 export class ExpensesService {
@@ -21,16 +24,16 @@ export class ExpensesService {
     return this.expenseRepository.manager.transaction(async (manager) => {
       const expense = manager.create(Expense, {
         ...rest,
-        group: { id: groupId },
-        paidBy: { id: paidBy },
+        groupId: groupId,
+        paidBy: paidBy,
       });
 
       await manager.save(expense);
 
       const expenseParticipants = participants.map((p) =>
         manager.create(ExpenseParticipant, {
-          expenseId: { id: expense.id },
-          participantId: { id: p },
+          expenseId: expense.id,
+          participantId: p,
           share,
         }),
       );
@@ -94,21 +97,83 @@ export class ExpensesService {
   ): Promise<ExpenseSummaryDto[]> {
     return await this.expenseRepository
       .createQueryBuilder('e')
-      .leftJoin('e.paidBy', 'p_paid_by')
+      .leftJoin('e.paidByParticipant', 'p_paid_by')
       .leftJoin('e.expenseParticipants', 'ep')
       .select('e.title', 'title')
-      .addSelect('e.amount', 'total_amount')
+      .addSelect('e.id', 'id')
+      .addSelect('e.groupId', 'groupId')
+      .addSelect('e.amount', 'totalAmount')
       .addSelect('e.category', 'category')
-      .addSelect('p_paid_by.name', 'paid_by')
-      .addSelect('COUNT(ep.id)', 'participants_count')
+      .addSelect('p_paid_by.name', 'paidBy')
+      .addSelect('COUNT(ep.id)', 'participantsCount')
       .where('e.groupId = :groupId', { groupId })
       .groupBy('e.id')
       .addGroupBy('p_paid_by.name')
       .getRawMany();
   }
 
-  async findOne(id: string) {
-    return await this.expenseRepository.findOneBy({ id });
+  async findOne(
+    id: string,
+    filter: FilterFindOneExpenseDto,
+  ): Promise<ExpenseDto | ExpenseWithParticipantsDto> {
+    const { includeParticipants } = filter;
+
+    const relations = includeParticipants
+      ? ['expenseParticipants', 'expenseParticipants.participant']
+      : [];
+
+    const expense = await this.expenseRepository.findOne({
+      where: { id },
+      relations,
+    });
+
+    if (!expense) throw new NotFoundException();
+
+    const base: ExpenseDto = {
+      id: expense.id,
+      title: expense.title,
+      amount: expense.amount,
+      category: expense.category,
+      isSettled: expense.isSettled,
+      groupId: expense.groupId,
+      paidBy: expense.paidBy,
+      createdAt: expense.createdAt,
+    };
+
+    if (!includeParticipants) return base;
+
+    return {
+      ...base,
+      participants: expense.expenseParticipants.map((ep) => ({
+        id: ep.participant.id,
+        name: ep.participant.name,
+        share: ep.share,
+      })),
+    };
+  }
+
+  async findOneWithParticipants(
+    id: string,
+  ): Promise<ExpenseWithParticipantsDto> {
+    const expense = (await this.expenseRepository
+      .createQueryBuilder('e')
+      .leftJoin('e.paidBy', 'p_paid_by')
+      .leftJoin('e.expenseParticipants', 'ep')
+      .select('e.title', 'title')
+      .addSelect('e.id', 'id')
+      .addSelect('e.groupId', 'groupId')
+      .addSelect('e.amount', 'totalAmount')
+      .addSelect('e.category', 'category')
+      .addSelect('p_paid_by.name', 'paidBy')
+      .addSelect('ep', 'participants')
+      .where('e.id = :id', { id })
+      .groupBy('e.id')
+      .addGroupBy('p_paid_by.name')
+      .getRawOne()) as ExpenseWithParticipantsDto;
+
+    if (!expense) throw new NotFoundException();
+
+    return expense;
   }
 
   async update(id: string, updateExpenseDto: UpdateExpenseDto) {
