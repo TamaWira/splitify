@@ -4,12 +4,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ClientsModule } from './clients/clients.module';
-import databaseConfig from './config/database.config';
+import databaseConfig from './common/config/database.config';
+import { LoggerModule } from './common/logger/logger.module';
 import { ExpenseParticipantsModule } from './expense-participants/expense_participants.module';
 import { ExpensesModule } from './expenses/expenses.module';
 import { GroupsModule } from './groups/groups.module';
 import { ParticipantsModule } from './participants/participants.module';
-import { LoggerModule } from './logger/logger.module';
 
 @Module({
   imports: [
