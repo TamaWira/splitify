@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ClientsModule } from './clients/clients.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import databaseConfig from './config/database.config';
+import { ExpenseParticipantsModule } from './expense-participants/expense_participants.module';
+import { ExpensesModule } from './expenses/expenses.module';
 import { GroupsModule } from './groups/groups.module';
 import { ParticipantsModule } from './participants/participants.module';
-import { ExpensesModule } from './expenses/expenses.module';
-import { ExpenseParticipantsModule } from './expense-participants/expense_participants.module';
-import { ConfigModule } from '@nestjs/config';
-import { AuthModule } from './auth/auth.module';
-import databaseConfig from './config/database.config';
+import { LoggerModule } from './logger/logger.module';
 
 @Module({
   imports: [
@@ -18,6 +18,7 @@ import databaseConfig from './config/database.config';
     ParticipantsModule,
     ExpensesModule,
     ExpenseParticipantsModule,
+    LoggerModule,
 
     ConfigModule.forRoot({
       isGlobal: true,
@@ -34,8 +35,6 @@ import databaseConfig from './config/database.config';
       synchronize: false,
       autoLoadEntities: true,
     }),
-
-    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
