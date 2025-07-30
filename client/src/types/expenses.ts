@@ -19,3 +19,12 @@ export type CreateExpenseDto = {
   share: number;
   isSettled: boolean;
 };
+
+export type ExpenseWithSummary = {
+  id: string;
+  title: string;
+  totalAmount: string;
+  category: string;
+  paidBy: string;
+  participantsCount: number;
+};

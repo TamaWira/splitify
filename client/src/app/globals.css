@@ -15,6 +15,10 @@
     /* Yellow */
     --color-primary-yellow: #b89952;
     --color-hue-yellow: #faf9ee;
+
+    /* Info */
+    --color-light-white: #5c5b5f;
+    --color-hue-white: #fafafa;
 }
 
 body {
@@ -129,10 +133,10 @@ body {
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
+    * {
+        @apply border-border outline-ring/50;
     }
-  body {
-    @apply bg-background text-foreground;
+    body {
+        @apply bg-background text-foreground;
     }
 }

@@ -1,16 +1,16 @@
-import { fetchExpensesByGroupId } from "@/actions/expenses";
-import { SectionHeader } from "./section-header";
+import { fetchExpensesWithSummaryByGroupId } from "@/actions/expenses";
 import { ExpensesList } from "./expenses-list";
+import { SectionHeader } from "./section-header";
 
 type ExpensesSectionProps = {
   groupId: string;
 };
 
 export async function ExpensesSection({ groupId }: ExpensesSectionProps) {
-  const expenses = await fetchExpensesByGroupId(groupId);
+  const expenses = await fetchExpensesWithSummaryByGroupId(groupId);
 
   return (
-    <div>
+    <div className="space-y-3">
       <SectionHeader
         title="Expenses"
         actionLabel="+ Add Expense"
