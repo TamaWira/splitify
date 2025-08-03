@@ -9,8 +9,8 @@ type Props = {
 };
 
 export function ShareSummaryButton({ groupId }: Props) {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [, setLoading] = useState(false);
+  const [, setError] = useState<string | null>(null);
 
   const handleShare = async () => {
     setLoading(true);
