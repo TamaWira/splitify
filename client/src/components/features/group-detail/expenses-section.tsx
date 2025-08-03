@@ -1,4 +1,4 @@
-import { fetchExpensesWithSummaryByGroupId } from "@/actions/expenses";
+import { fetchGroupsExpenses } from "@/lib/api/groups";
 import { ExpensesList } from "./expenses-list";
 import { SectionHeader } from "./section-header";
 
@@ -7,7 +7,7 @@ type ExpensesSectionProps = {
 };
 
 export async function ExpensesSection({ groupId }: ExpensesSectionProps) {
-  const expenses = await fetchExpensesWithSummaryByGroupId(groupId);
+  const expenses = await fetchGroupsExpenses(groupId);
 
   return (
     <div className="space-y-3">

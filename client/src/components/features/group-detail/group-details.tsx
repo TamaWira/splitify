@@ -1,13 +1,12 @@
-import { Button } from "@/components/ui/button";
-import { Share } from "lucide-react";
-import { GroupListRowLeftBadges } from "../home/group-list/group-list-row-left-badges";
 import { GroupSummary } from "@/types/groups";
+import { GroupListRowLeftBadges } from "../home/group-list/group-list-row-left-badges";
+import { ShareSummaryButton } from "./share-summary-button";
 
 type GroupDetailsProps = {
   group: GroupSummary;
 };
 
-export function GroupDetails({ group }: GroupDetailsProps) {
+export async function GroupDetails({ group }: GroupDetailsProps) {
   return (
     <>
       <div className="flex justify-between">
@@ -18,15 +17,7 @@ export function GroupDetails({ group }: GroupDetailsProps) {
           </div>
           <GroupListRowLeftBadges group={group} />
         </div>
-        <div>
-          <Button
-            className="flex items-center gap-2 rounded-full"
-            variant="outline"
-          >
-            <Share size={16} />
-            <p>Share</p>
-          </Button>
-        </div>
+        <ShareSummaryButton groupId={group.id} />
       </div>
     </>
   );

@@ -16,3 +16,10 @@ export type GroupSummary = Omit<
   isFullySettled: boolean;
   unsettledAmount: number;
 };
+
+export type SplitSummary = {
+  participantId: string;
+  participantName: string;
+  category: "owes" | "gets";
+  amount: number;
+};

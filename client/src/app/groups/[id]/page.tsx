@@ -3,6 +3,7 @@ import { ExpensesSection } from "@/components/features/group-detail/expenses-sec
 import { GroupDetailNavbar } from "@/components/features/group-detail/group-detail-navbar";
 import { GroupDetailSectionsButtons } from "@/components/features/group-detail/group-detail-sections-buttons";
 import { GroupDetails } from "@/components/features/group-detail/group-details";
+import { SplitSummarySection } from "@/components/features/group-detail/split-summary/split-summary-section";
 
 export default async function Page({
   params,
@@ -12,17 +13,18 @@ export default async function Page({
   searchParams: { section: string };
 }) {
   const { id } = await params; // Next.js stated that `params` need to be awaited
-  const { section } = await searchParams;
+  const { section } = await searchParams; // Next.js stated that `params` need to be awaited
+
   const group = await fetchGroupByIdWithSummary(id);
 
   return (
-    <main className="px-5 pb-10 pt-[80px] space-y-8 min-h-screen">
+    <main className="space-y-8 px-5 pt-[80px] pb-10 min-h-screen">
       <GroupDetailNavbar title={group.title} />
       <GroupDetails group={group} />
       <GroupDetailSectionsButtons />
 
       {section === "summary" || !section ? (
-        <div>Summary</div>
+        <SplitSummarySection groupId={group.id} />
       ) : section === "expenses" ? (
         <ExpensesSection groupId={id} />
       ) : section === "participants" ? (

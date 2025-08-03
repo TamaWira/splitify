@@ -10,19 +10,20 @@ type GroupListProps = {
 };
 
 export function GroupList({ type, seeAllHref, groups }: GroupListProps) {
-  return (
-    <div className="space-y-3">
-      <GroupListCategoryHeader type={type} seeAllHref={seeAllHref} />
+  if (groups && groups.length > 0)
+    return (
+      <div className="space-y-3">
+        <GroupListCategoryHeader type={type} seeAllHref={seeAllHref} />
 
-      <div className="space-y-2">
-        {groups.map((group) => (
-          <div key={group.id}>
-            <Link href={`/groups/${group.id}`}>
-              <GroupListRow group={group} />
-            </Link>
-          </div>
-        ))}
+        <div className="space-y-2">
+          {groups.map((group) => (
+            <div key={group.id}>
+              <Link href={`/groups/${group.id}`}>
+                <GroupListRow group={group} />
+              </Link>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
-  );
+    );
 }

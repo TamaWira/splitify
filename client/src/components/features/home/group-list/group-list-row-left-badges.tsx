@@ -6,15 +6,15 @@ export function GroupListRowLeftBadges({ group }: { group: GroupSummary }) {
   return (
     <div className="flex items-center gap-2">
       <Badge variant="success">
-        <UserRound size={16} />
-        <p>
+        <UserRound size={12} />
+        <p className="text-[10px]">
           {group.participantsCount}{" "}
           {group.participantsCount > 1 ? "People" : "Person"}
         </p>
       </Badge>
       <Badge variant="primary">
-        <CircleDollarSign size={16} />
-        <p>
+        <CircleDollarSign size={12} />
+        <p className="text-[10px]">
           {group.expensesCount} Expense
           {group.expensesCount > 1 ? "s" : ""}
         </p>

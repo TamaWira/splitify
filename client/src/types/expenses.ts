@@ -22,6 +22,7 @@ export type CreateExpenseDto = {
 
 export type ExpenseWithSummary = {
   id: string;
+  groupId: string;
   title: string;
   totalAmount: string;
   category: string;

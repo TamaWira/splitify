@@ -8,11 +8,11 @@ import {
 } from "@/types/expenses";
 
 export const fetchExpensesByGroupId = async (
-  groupId: string,
+  groupId: string
 ): Promise<ApiResponse<Expense[]>> => {
   try {
     const response = await fetch(
-      `http://localhost:8000/api/expenses?groupId=${groupId}`,
+      `http://localhost:8000/api/expenses?groupId=${groupId}`
     );
     const data = await response.json();
     return data;
@@ -23,11 +23,11 @@ export const fetchExpensesByGroupId = async (
 };
 
 export const fetchExpensesWithSummaryByGroupId = async (
-  groupId: string,
+  groupId: string
 ): Promise<ExpenseWithSummary[]> => {
   try {
     const response = await fetch(
-      `http://localhost:8000/api/expenses/summary?groupId=${groupId}`,
+      `http://localhost:8000/api/groups/${groupId}/expenses`
     );
     const data = await response.json();
     return data;
@@ -46,6 +46,17 @@ export const addExpense = async (payload: CreateExpenseDto) => {
       },
       body: JSON.stringify(payload),
     });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const getExpenseById = async (id: string) => {
+  try {
+    const response = await fetch(`http://localhost:8000/api/expenses/${id}`);
     const data = await response.json();
     return data;
   } catch (error) {

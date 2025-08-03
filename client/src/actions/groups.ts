@@ -1,5 +1,7 @@
 "use server";
 
+import { safeFetch } from "@/lib/safeFetch";
+import { ApiResponse } from "@/types/api";
 import { GroupSummary } from "@/types/groups";
 import { getSplitifyClientId } from "@/utils/get-splitify-client-id";
 import { redirect } from "next/navigation";
@@ -23,32 +25,13 @@ export const fetchGroupById = async (id: string): Promise<GroupSummary> => {
   return await response.json();
 };
 
-export const fetchGroupSummaries = async (
-  clientId: string,
-): Promise<GroupSummary[]> => {
-  const response = await fetch(`http://localhost:8000/api/groups/summary`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${clientId}`,
-    },
-    cache: "no-store",
-  });
-
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-
-  return await response.json();
-};
-
 export const fetchGroupByIdWithSummary = async (
-  id: string,
+  id: string
 ): Promise<GroupSummary> => {
   const clientId = await getSplitifyClientId();
 
-  const response = await fetch(
-    `http://localhost:8000/api/groups/${id}/summary`,
+  return safeFetch<GroupSummary>(
+    `http://localhost:8000/api/groups/${id}?withSummary=true`,
     {
       method: "GET",
       headers: {
@@ -56,14 +39,26 @@ export const fetchGroupByIdWithSummary = async (
         Authorization: `Bearer ${clientId}`,
       },
       cache: "no-store",
-    },
+    }
   );
 
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
+  // const response = await fetch(
+  //   `http://localhost:8000/api/groups/${id}/summary`,
+  // {
+  //   method: "GET",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //     Authorization: `Bearer ${clientId}`,
+  //   },
+  //   cache: "no-store",
+  // }
+  // );
 
-  return await response.json();
+  // if (!response.ok) {
+  //   throw new Error(`HTTP error! status: ${response.status}`);
+  // }
+
+  // return await response.json();
 };
 
 export const addGroup = async (formData: FormData) => {
@@ -98,7 +93,7 @@ export const addGroup = async (formData: FormData) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(payload),
-      },
+      }
     );
 
     if (!response.ok) {
