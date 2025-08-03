@@ -3,13 +3,13 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ClientsModule } from './clients/clients.module';
+import { ClientsModule } from './modules/clients/clients.module';
 import databaseConfig from './common/config/database.config';
 import { LoggerModule } from './common/logger/logger.module';
-import { ExpenseParticipantsModule } from './expense-participants/expense_participants.module';
-import { ExpensesModule } from './expenses/expenses.module';
-import { GroupsModule } from './groups/groups.module';
-import { ParticipantsModule } from './participants/participants.module';
+import { ExpensesModule } from './modules/expenses/expenses.module';
+import { GroupsModule } from './modules/groups/groups.module';
+import { ParticipantsModule } from './modules/participants/participants.module';
+import { ExpenseParticipantsModule } from './modules/expense-participants/expense-participants.module';
 
 @Module({
   imports: [
