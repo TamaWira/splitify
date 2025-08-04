@@ -5,9 +5,13 @@ import { SquarePen, Trash2 } from "lucide-react";
 
 type Props = {
   participant: Participant;
+  withActions?: boolean;
 };
 
-export function ParticipantListRow({ participant }: Props) {
+export function ParticipantListRow({
+  participant,
+  withActions = false,
+}: Props) {
   const avatar = participant.name[0].toUpperCase();
 
   return (
@@ -27,12 +31,16 @@ export function ParticipantListRow({ participant }: Props) {
           </div>
         </div>
         <div className="flex items-center">
-          <Button variant="ghost" className="m-0 p-0">
-            <SquarePen size={20} className="text-gray-500" />
-          </Button>
-          <Button variant="ghost" className="m-0 p-0">
-            <Trash2 size={20} className="text-red-400" />
-          </Button>
+          {withActions && (
+            <>
+              <Button variant="ghost" className="m-0 p-0">
+                <SquarePen size={20} className="text-gray-500" />
+              </Button>
+              <Button variant="ghost" className="m-0 p-0">
+                <Trash2 size={20} className="text-red-400" />
+              </Button>
+            </>
+          )}
         </div>
       </div>
     </Card>

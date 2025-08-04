@@ -9,7 +9,7 @@ export default async function Page({ params }: { params: { id: string } }) {
     <main className="space-y-8 px-5 pt-[80px] pb-10 min-h-screen">
       <ManageParticipantsNavbar />
       <ManageParticipantsHeader />
-      <ParticipantList groupId={groupId} />
+      <ParticipantList groupId={groupId} rowsWithActions />
     </main>
   );
 }
