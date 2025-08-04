@@ -29,8 +29,6 @@ export async function GroupListSection({ clientId }: GroupListSectionProps) {
   try {
     const groups = await fetchGroupSummaries(clientId);
 
-    console.log(groups);
-
     const unsettledGroups = groups.filter((group) => !group.isFullySettled);
     const fulfilledGroups = groups.filter((group) => group.isFullySettled);
 

@@ -39,13 +39,17 @@ export const fetchExpensesWithSummaryByGroupId = async (
 
 export const addExpense = async (payload: CreateExpenseDto) => {
   try {
-    const response = await fetch(`http://localhost:8000/api/expenses`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
+    const { groupId, ...rest } = payload;
+    const response = await fetch(
+      `http://localhost:8000/api/groups/${groupId}/expenses`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(rest),
+      }
+    );
     const data = await response.json();
     return data;
   } catch (error) {

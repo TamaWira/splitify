@@ -3,6 +3,7 @@ import { ExpensesSection } from "@/components/features/group-detail/expenses-sec
 import { GroupDetailNavbar } from "@/components/features/group-detail/group-detail-navbar";
 import { GroupDetailSectionsButtons } from "@/components/features/group-detail/group-detail-sections-buttons";
 import { GroupDetails } from "@/components/features/group-detail/group-details";
+import { ParticipantsSection } from "@/components/features/group-detail/participants-section";
 import { SplitSummarySection } from "@/components/features/group-detail/split-summary/split-summary-section";
 
 export default async function Page({
@@ -24,11 +25,11 @@ export default async function Page({
       <GroupDetailSectionsButtons />
 
       {section === "summary" || !section ? (
-        <SplitSummarySection groupId={group.id} />
+        <SplitSummarySection groupId={id} />
       ) : section === "expenses" ? (
         <ExpensesSection groupId={id} />
       ) : section === "participants" ? (
-        <div>Participants</div>
+        <ParticipantsSection groupId={id} />
       ) : (
         <></>
       )}

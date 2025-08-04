@@ -39,7 +39,7 @@ export function AddExpenseForm({ groupId }: AddExpenseProps) {
       const category = formData.get("category") as string;
       const paidBy = formData.get("paid-by") as string;
       const participants = formData.getAll("participants") as string[];
-      const share = 100 / participants.length;
+      const share = amount / participants.length;
       const isSettled = formData.get("is-settled") as string;
 
       const payload: CreateExpenseDto = {
