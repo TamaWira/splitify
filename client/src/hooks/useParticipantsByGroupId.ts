@@ -1,4 +1,4 @@
-import { getParticipantsByGroupId } from "@/actions/participants";
+import { getParticipantsByGroupId } from "@/lib/api/participants";
 import { Participant } from "@/types/participants";
 import { useEffect, useState } from "react";
 

@@ -24,14 +24,12 @@ export default async function Page({
       <GroupDetails group={group} />
       <GroupDetailSectionsButtons />
 
-      {section === "summary" || !section ? (
-        <SplitSummarySection groupId={id} />
-      ) : section === "expenses" ? (
+      {section === "expenses" ? (
         <ExpensesSection groupId={id} />
       ) : section === "participants" ? (
         <ParticipantsSection groupId={id} />
       ) : (
-        <></>
+        <SplitSummarySection groupId={id} />
       )}
     </main>
   );
