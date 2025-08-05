@@ -6,10 +6,12 @@ import { SquarePen, Trash2 } from "lucide-react";
 type Props = {
   participant: Participant;
   withActions?: boolean;
+  handleSelectParticipant?: (participant: Participant) => void;
 };
 
 export function ParticipantListRow({
   participant,
+  handleSelectParticipant,
   withActions = false,
 }: Props) {
   const avatar = participant.name[0].toUpperCase();
@@ -31,11 +33,16 @@ export function ParticipantListRow({
           </div>
         </div>
         <div className="flex items-center">
-          {withActions && (
+          {withActions && handleSelectParticipant && (
             <>
-              <Button variant="ghost" className="m-0 p-0">
+              <Button
+                variant="ghost"
+                className="m-0 p-0"
+                onClick={() => handleSelectParticipant(participant)}
+              >
                 <SquarePen size={20} className="text-gray-500" />
               </Button>
+
               <Button variant="ghost" className="m-0 p-0">
                 <Trash2 size={20} className="text-red-400" />
               </Button>

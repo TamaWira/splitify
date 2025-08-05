@@ -7,6 +7,7 @@ export type InputWithLabelProps = {
   name: string;
   placeholder?: string;
   value?: string;
+  defaultValue?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
@@ -17,11 +18,12 @@ export function InputWithLabel({
   name,
   placeholder,
   value,
+  defaultValue,
   onChange,
 }: InputWithLabelProps) {
   return (
     <div className="flex flex-col gap-1">
-      <label className="text-sm font-semibold text-gray-700" htmlFor={name}>
+      <label className="font-semibold text-gray-700 text-sm" htmlFor={name}>
         {label}
       </label>
       <Input
@@ -31,6 +33,7 @@ export function InputWithLabel({
         name={name}
         placeholder={placeholder}
         value={value}
+        defaultValue={defaultValue}
         onChange={onChange}
       />
     </div>

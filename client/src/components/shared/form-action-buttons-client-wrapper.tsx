@@ -3,12 +3,16 @@
 import { FormActionButtons } from "@/components/shared/form-action-buttons";
 import { usePathname } from "next/navigation";
 
-export function AddExpenseFormActionButtonsClientWrapper() {
+type Props = {
+  backSection: string;
+};
+
+export function FormActionButtonsClientWrapper({ backSection }: Props) {
   const pathname = usePathname();
 
   const pathSegments = pathname.split("/").filter(Boolean);
   const previousUrl =
-    "/" + pathSegments.slice(0, -1).join("/") + "?section=expenses";
+    "/" + pathSegments.slice(0, -1).join("/") + `?section=${backSection}`;
 
   return (
     <FormActionButtons

@@ -1,14 +1,14 @@
 "use client";
 
+import { addExpense } from "@/actions/expenses";
 import { ExpenseFulfillmentSwitch } from "@/components/shared/expense-fulfillment-switch";
 import { useParticipantsByGroupId } from "@/hooks/useParticipantsByGroupId";
+import { CreateExpenseDto } from "@/types/expenses";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { AddExpenseFormActionButtonsClientWrapper } from "./add-expense-form-action-buttons-client-wrapper";
+import { FormActionButtonsClientWrapper } from "../../shared/form-action-buttons-client-wrapper";
 import { ExpenseDetailsForm } from "./expense-details-form";
 import { SplitDetailsForm } from "./split-details-form";
-import { addExpense } from "@/actions/expenses";
-import { useRouter } from "next/navigation";
-import { CreateExpenseDto } from "@/types/expenses";
 
 type AddExpenseProps = {
   groupId: string;
@@ -86,7 +86,7 @@ export function AddExpenseForm({ groupId }: AddExpenseProps) {
         amount={amount}
       />
       <ExpenseFulfillmentSwitch />
-      <AddExpenseFormActionButtonsClientWrapper />
+      <FormActionButtonsClientWrapper backSection="expenses" />
     </form>
   );
 }

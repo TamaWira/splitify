@@ -2,16 +2,16 @@
 
 import { SectionHeader } from "@/components/features/group-detail/section-header";
 
-export function ManageParticipantsHeader() {
-  const sectionHeaderOnClick = () => {
-    alert("Hi there");
-  };
+type Props = {
+  onClickHeaderButton: () => void;
+};
 
+export function ManageParticipantsHeader({ onClickHeaderButton }: Props) {
   return (
     <SectionHeader
       title="Participants"
       actionLabel="+ Add Person"
-      action={sectionHeaderOnClick}
+      action={onClickHeaderButton}
     />
   );
 }
