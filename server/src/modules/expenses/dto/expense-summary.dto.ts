@@ -2,8 +2,8 @@ export class ExpenseSummaryDto {
   id: string;
   groupId: string;
   title: string;
-  total_amount: number;
+  totalAmount: number;
   category: string;
-  paid_by: string;
-  participants_count: number;
+  paidBy: string;
+  participantsCount: number;
 }

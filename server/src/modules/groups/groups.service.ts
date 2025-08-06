@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateParticipantWithoutGroupIdDto } from 'src/modules/participants/dto/create-participant-without-group-id.dto';
 import { Participant } from 'src/modules/participants/entities/participant.entity';
@@ -29,9 +33,13 @@ export class GroupsService {
   ): Promise<Group[] | GroupSummaryDto[]> {
     const { clientId, withSummary } = query;
 
+    if (!clientId) {
+      throw new BadRequestException('client id is required');
+    }
+
     const qb = this.groupRepository.createQueryBuilder('g');
 
-    qb.andWhere('g.clienId = :clientId', { clientId });
+    qb.andWhere('g.client_id = :clientId', { clientId });
 
     if (withSummary) {
       qb.leftJoin(

@@ -38,18 +38,18 @@ export class ExpensesController {
     return this.expensesService.findAll(filter);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string, @Query() filter: FilterFindOneExpenseDto) {
-    return this.expensesService.findOne(id, filter);
-  }
+  // @Get(':id')
+  // findOne(@Param('id') id: string, @Query() filter: FilterFindOneExpenseDto) {
+  //   return this.expensesService.findOne(id, filter);
+  // }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateExpenseDto: UpdateExpenseDto) {
-    return this.expensesService.update(id, updateExpenseDto);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateExpenseDto: UpdateExpenseDto) {
+  //   return this.expensesService.update(id, updateExpenseDto);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.expensesService.remove(id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.expensesService.remove(id);
+  // }
 }

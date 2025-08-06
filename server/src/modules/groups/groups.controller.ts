@@ -16,6 +16,8 @@ import { GroupsService } from './groups.service';
 import { ExpenseParticipantsService } from '../expense-participants/expense-participants.service';
 import { ExpensesService } from '../expenses/expenses.service';
 import { CreateExpenseDto } from '../expenses/dto/create-expense.dto';
+import { UpdateParticipantDto } from '../participants/dto/update-participant.dto';
+import { CreateParticipantDto } from '../participants/dto/create-participant.dto';
 
 @Controller('groups')
 export class GroupsController {
@@ -72,6 +74,24 @@ export class GroupsController {
   @Get(':id/participants')
   findAllParticipants(@Param('id') id: string) {
     return this.participantsService.findAll({ groupId: id });
+  }
+
+  @Post(':groupId/participants')
+  createParticipant(@Body() createParticipantDto: CreateParticipantDto) {
+    return this.participantsService.create(createParticipantDto);
+  }
+
+  @Patch(':groupId/participants/:participantId')
+  updateParticipant(
+    @Param('participantId') participantId: string,
+    @Body() updateParticipantDto: UpdateParticipantDto,
+  ) {
+    return this.participantsService.update(participantId, updateParticipantDto);
+  }
+
+  @Delete(':groupId/participants/:participantId')
+  deleteParticipant(@Param('participantId') participantId: string) {
+    return this.participantsService.remove(participantId);
   }
 
   @Get(':id/summary-text')
