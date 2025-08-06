@@ -1,7 +1,7 @@
 // To "refresh" the /manage-participants page which is a client component
 "use client";
 
-import { editParticipant } from "@/actions/participants";
+import { addParticipant, editParticipant } from "@/actions/participants";
 import { InputWithLabel } from "@/components/shared/input-with-label";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,31 +12,32 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Participant } from "@/types/participants";
-import { useRouter } from "next/navigation";
 
 type Props = {
+  groupId: string;
   isDialogOpen: boolean;
   handleCloseDialog: () => void;
   selectedParticipant?: Participant | null;
 };
 
 export function ManageParticipantDialog({
+  groupId,
   isDialogOpen,
   handleCloseDialog,
   selectedParticipant,
 }: Props) {
-  const router = useRouter();
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
 
-    await editParticipant(formData);
-    handleCloseDialog();
+    if (selectedParticipant) {
+      await editParticipant(formData);
+    } else {
+      await addParticipant(formData);
+    }
 
-    const groupId = formData.get("group-id") as string;
-    router.push(`/groups/${groupId}/manage-participants`);
+    handleCloseDialog();
   };
 
   return (
@@ -48,11 +49,7 @@ export function ManageParticipantDialog({
         </DialogHeader>
         <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
           <input name="id" defaultValue={selectedParticipant?.id} hidden />
-          <input
-            name="group-id"
-            defaultValue={selectedParticipant?.groupId}
-            hidden
-          />
+          <input name="group-id" defaultValue={groupId} hidden />
           <InputWithLabel
             required
             label="Name"
@@ -71,6 +68,7 @@ export function ManageParticipantDialog({
           />
           <div className="gap-3 grid grid-cols-2">
             <Button
+              type="button"
               variant="outline"
               className="rounded-full"
               onClick={handleCloseDialog}

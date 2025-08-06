@@ -2,6 +2,40 @@
 
 import { revalidatePath } from "next/cache";
 
+export const addParticipant = async (formData: FormData) => {
+  const groupId = formData.get("group-id") as string;
+  const name = formData.get("name") as string;
+  const email = formData.get("email") as string;
+
+  const payload = {
+    groupId,
+    name,
+    email,
+  };
+
+  try {
+    const response = await fetch(
+      `http://localhost:8000/api/groups/${groupId}/participants`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    revalidatePath(`/groups/${groupId}/manage-participants`);
+  } catch (error) {
+    console.error("Failed to create group:", error);
+    return;
+  }
+};
+
 export const editParticipant = async (formData: FormData) => {
   const id = formData.get("id") as string;
   const groupId = formData.get("group-id") as string;
@@ -23,6 +57,29 @@ export const editParticipant = async (formData: FormData) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(payload),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    revalidatePath(`/groups/${groupId}/manage-participants`);
+  } catch (error) {
+    console.error("Failed to create group:", error);
+    return;
+  }
+};
+
+export const deleteParticipant = async (id: string, groupId: string) => {
+  try {
+    const response = await fetch(
+      `http://localhost:8000/api/groups/${groupId}/participants/${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
       }
     );
 

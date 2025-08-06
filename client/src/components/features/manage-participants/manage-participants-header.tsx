@@ -1,17 +1,28 @@
 "use client";
 
 import { SectionHeader } from "@/components/features/group-detail/section-header";
+import { useState } from "react";
+import { ManageParticipantDialog } from "./manage-participant-dialog";
 
-type Props = {
-  onClickHeaderButton: () => void;
-};
+export function ManageParticipantsHeader({ groupId }: { groupId: string }) {
+  const [isModalOpen, setIsModelOpen] = useState(false);
 
-export function ManageParticipantsHeader({ onClickHeaderButton }: Props) {
+  const handleOpenModal = () => setIsModelOpen(true);
+  const handleCloseModal = () => setIsModelOpen(false);
+
   return (
-    <SectionHeader
-      title="Participants"
-      actionLabel="+ Add Person"
-      action={onClickHeaderButton}
-    />
+    <>
+      <SectionHeader
+        title="Participants"
+        actionLabel="+ Add Person"
+        action={handleOpenModal}
+      />
+      <ManageParticipantDialog
+        isDialogOpen={isModalOpen}
+        handleCloseDialog={handleCloseModal}
+        selectedParticipant={null}
+        groupId={groupId}
+      />
+    </>
   );
 }
