@@ -18,6 +18,7 @@ import { ExpensesService } from '../expenses/expenses.service';
 import { CreateExpenseDto } from '../expenses/dto/create-expense.dto';
 import { UpdateParticipantDto } from '../participants/dto/update-participant.dto';
 import { CreateParticipantDto } from '../participants/dto/create-participant.dto';
+import { UpdateExpenseDto } from '../expenses/dto/update-expense.dto';
 
 @Controller('groups')
 export class GroupsController {
@@ -27,6 +28,10 @@ export class GroupsController {
     private readonly expensesService: ExpensesService,
     private readonly expenseParticipantsService: ExpenseParticipantsService,
   ) {}
+
+  // ============================
+  // ========== Groups ==========
+  // ============================
 
   @Get()
   findAll(@Query() query: FindAllGroupsParamsDto) {
@@ -53,9 +58,18 @@ export class GroupsController {
     return this.groupsService.update(id, updateGroupDto);
   }
 
+  // =============================
+  // ========== Expense ==========
+  // =============================
+
   @Get(':id/expenses')
   findAllExpenses(@Param('id') id: string) {
     return this.expensesService.findAll({ groupId: id });
+  }
+
+  @Get(':groupId/expenses/:expenseId')
+  findExpense(@Param('expenseId') expenseId: string) {
+    return this.expensesService.findOneWithParticipants(expenseId);
   }
 
   @Post(':id/expenses')
@@ -70,6 +84,21 @@ export class GroupsController {
 
     return this.expensesService.create(payload);
   }
+
+  @Patch(':groupId/expenses/:expenseId')
+  updateExpense(
+    @Param('expenseId') expenseId: string,
+    @Body() updateExpenseDto: UpdateExpenseDto,
+  ) {
+    return this.expensesService.updateExpenseWithParticipants(
+      expenseId,
+      updateExpenseDto,
+    );
+  }
+
+  // ==================================
+  // ========== Participants ==========
+  // ==================================
 
   @Get(':id/participants')
   findAllParticipants(@Param('id') id: string) {

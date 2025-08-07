@@ -26,9 +26,6 @@ export class CreateExpenseDto {
   @IsString({ each: true })
   participants: string[];
 
-  @IsNumber()
-  share: number;
-
   @IsBoolean()
   isSettled: boolean;
 }
