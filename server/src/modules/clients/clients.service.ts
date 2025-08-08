@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateClientDto } from './dto/create-client.dto';
@@ -11,7 +11,7 @@ export class ClientsService {
     private readonly clientRepository: Repository<Client>,
   ) {}
 
-  async create(createClientDto: CreateClientDto) {
+  async create(createClientDto: CreateClientDto): Promise<Client> {
     const result = await this.clientRepository
       .createQueryBuilder()
       .insert()
@@ -23,7 +23,7 @@ export class ClientsService {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const insertedClient = result.raw?.[0] as Client;
     if (!insertedClient) {
-      throw new Error('Failed to create client');
+      throw new InternalServerErrorException('Failed to create client');
     }
 
     return insertedClient;

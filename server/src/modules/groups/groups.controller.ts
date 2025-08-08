@@ -128,59 +128,9 @@ export class GroupsController {
     return this.groupsService.generateSplitTextSummary(id);
   }
 
-  // ========================================
-  // ========================================
-  // ========================================
-
-  // ===== Participants =====
-
-  // @Post(':id/participants')
-  // createParticipant(
-  //   @Param('id') id: string,
-  //   @Body() createParticipantDto: CreateParticipantInGroupDto,
-  // ) {
-  //   const payload = {
-  //     groupId: id,
-  //     ...createParticipantDto,
-  //   };
-  //   return this.participantsService.create(payload);
+  // -- Use later
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.groupsService.remove(id);
   // }
-
-  // @Post('/with-participants')
-  // async createGroupWithParticipants(
-  //   @Body() createGroupWithParticipantsDto: CreateGroupWithParticipantsDto,
-  // ) {
-  //   const groupDto = createGroupWithParticipantsDto.group;
-  //   const participantsDto = createGroupWithParticipantsDto.participants;
-  //   return await this.groupsService.createGroupWithParticipants(
-  //     groupDto,
-  //     participantsDto,
-  //   );
-  // }
-
-  // @Get()
-  // findAll() {
-  //   return this.groupsService.findAll();
-  // }
-
-  // @UseGuards(AuthGuard)
-  // @Get('/summary')
-  // async findAllWithSummary(@Req() req: RequestWithUser) {
-  //   return await this.groupsService.findAllWithSummary(req.user.clientId);
-  // }
-
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.groupsService.findOne(id);
-  // }
-
-  // @Get(':id/summary')
-  // async findOneWithSummary(@Param('id') id: string) {
-  //   return await this.groupsService.findOneWithSummary(id);
-  // }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.groupsService.remove(id);
-  }
 }
