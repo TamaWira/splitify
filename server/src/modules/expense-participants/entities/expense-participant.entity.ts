@@ -19,7 +19,15 @@ export class ExpenseParticipant {
   @Column({ name: 'participant_id', type: 'uuid' })
   participantId: string;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2 })
+  @Column({
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
+    transformer: {
+      from: (value: string) => parseFloat(value),
+      to: (value: number) => value,
+    },
+  })
   share: number;
 
   // ===== Relations =====
