@@ -27,10 +27,11 @@ import { ExpenseParticipantsModule } from './modules/expense-participants/expens
 
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'docker',
-      password: 'docker',
+      url: process.env.DATABASE_URL,
+      // host: 'localhost',
+      // port: 5432,
+      // username: 'docker',
+      // password: 'docker',
       database: 'splitify_db',
       synchronize: false,
       autoLoadEntities: true,
