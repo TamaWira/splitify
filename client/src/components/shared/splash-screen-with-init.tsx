@@ -21,8 +21,8 @@ export function SplashScreenWithInit() {
         }
       );
 
-      const { id } = await res.json();
-      setCookie("splitify_client_id", id, {
+      const { data } = await res.json();
+      setCookie("splitify_client_id", data.id, {
         maxAge: 60 * 60 * 24 * 365,
         path: "/",
       });
