@@ -51,7 +51,6 @@ export function ExpenseForm({ groupId, expense }: AddExpenseProps) {
       const formData = new FormData(e.currentTarget);
 
       const title = formData.get("title") as string;
-      const amount = parseFloat(formData.get("amount") as string);
       const category = formData.get("category") as string;
       const paidBy = formData.get("paid-by") as string;
       const participants = formData.getAll("participants") as string[];
