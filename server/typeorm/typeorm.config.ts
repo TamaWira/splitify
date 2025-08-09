@@ -10,8 +10,8 @@ export default new DataSource({
   ],
   migrations: [
     process.env.NODE_ENV === 'production'
-      ? 'dist/migrations/*.js'
-      : 'src/migrations/*.ts',
+      ? 'dist/typeorm/migrations/*.js'
+      : 'src/typeorm/migrations/*.ts',
   ],
   ssl:
     process.env.NODE_ENV === 'production'
