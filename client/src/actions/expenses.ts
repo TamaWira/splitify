@@ -13,7 +13,7 @@ export const fetchExpensesByGroupId = async (
 ): Promise<ApiResponse<Expense[]>> => {
   try {
     const response = await fetch(
-      `http://localhost:8000/api/expenses?groupId=${groupId}`
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/expenses?groupId=${groupId}`
     );
     const data = await response.json();
     return data;
@@ -28,7 +28,7 @@ export const fetchExpensesWithSummaryByGroupId = async (
 ): Promise<ExpenseWithSummary[]> => {
   try {
     const response = await fetch(
-      `http://localhost:8000/api/groups/${groupId}/expenses`
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/groups/${groupId}/expenses`
     );
     const data = await response.json();
     return data;
@@ -42,7 +42,7 @@ export const addExpense = async (payload: CreateExpenseDto) => {
   try {
     const { groupId, ...rest } = payload;
     const response = await fetch(
-      `http://localhost:8000/api/groups/${groupId}/expenses`,
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/groups/${groupId}/expenses`,
       {
         method: "POST",
         headers: {
@@ -64,13 +64,16 @@ export const editExpense = async (id: string, payload: CreateExpenseDto) => {
 
   try {
     const { ...rest } = payload;
-    const response = await fetch(`http://localhost:8000/api/expenses/${id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(rest),
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/expenses/${id}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(rest),
+      }
+    );
     const data = await response.json();
     return data;
   } catch (error) {
@@ -83,7 +86,9 @@ export const getExpenseById = async (
   id: string
 ): Promise<ExpenseWithParticipants> => {
   try {
-    const response = await fetch(`http://localhost:8000/api/expenses/${id}`);
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/expenses/${id}`
+    );
     const data =
       (await response.json()) as ApiResponse<ExpenseWithParticipants>;
 

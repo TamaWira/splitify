@@ -9,14 +9,17 @@ import { redirect } from "next/navigation";
 export const fetchGroupById = async (id: string): Promise<GroupSummary> => {
   const clientId = await getSplitifyClientId();
 
-  const response = await fetch(`http://localhost:8000/api/groups/${id}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${clientId}`,
-    },
-    cache: "no-store",
-  });
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_API_URL}/groups/${id}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${clientId}`,
+      },
+      cache: "no-store",
+    }
+  );
 
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
@@ -86,7 +89,7 @@ export const addGroup = async (formData: FormData) => {
 
   try {
     const response = await fetch(
-      "http://localhost:8000/api/groups/with-participants",
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/groups/with-participants`,
       {
         method: "POST",
         headers: {

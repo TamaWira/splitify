@@ -18,7 +18,7 @@ export function ShareSummaryButton({ groupId }: Props) {
 
     try {
       const res = await fetch(
-        `http://localhost:8000/api/groups/${groupId}/summary-text`
+        `${process.env.NEXT_PUBLIC_BASE_API_URL}/groups/${groupId}/summary-text`
       );
       if (!res.ok) throw new Error("Failed to fetch summary");
 

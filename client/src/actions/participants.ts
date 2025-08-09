@@ -15,7 +15,7 @@ export const addParticipant = async (formData: FormData) => {
 
   try {
     const response = await fetch(
-      `http://localhost:8000/api/groups/${groupId}/participants`,
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/groups/${groupId}/participants`,
       {
         method: "POST",
         headers: {
@@ -50,7 +50,7 @@ export const editParticipant = async (formData: FormData) => {
 
   try {
     const response = await fetch(
-      `http://localhost:8000/api/groups/${groupId}/participants/${id}`,
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/groups/${groupId}/participants/${id}`,
       {
         method: "PATCH",
         headers: {
@@ -74,7 +74,7 @@ export const editParticipant = async (formData: FormData) => {
 export const deleteParticipant = async (id: string, groupId: string) => {
   try {
     const response = await fetch(
-      `http://localhost:8000/api/groups/${groupId}/participants/${id}`,
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/groups/${groupId}/participants/${id}`,
       {
         method: "DELETE",
         headers: {

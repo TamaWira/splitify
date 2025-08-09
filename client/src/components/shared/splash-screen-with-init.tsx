@@ -12,11 +12,14 @@ export function SplashScreenWithInit() {
   useEffect(() => {
     const init = async () => {
       const metadata = getClientMetadata();
-      const res = await fetch("http://localhost:8000/api/clients", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(metadata),
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_API_URL}/clients`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(metadata),
+        }
+      );
 
       const { id } = await res.json();
       setCookie("splitify_client_id", id, {
