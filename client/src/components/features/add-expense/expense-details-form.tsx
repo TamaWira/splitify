@@ -12,12 +12,14 @@ const mockCategories = [
 ];
 
 type ExpenseDetailsFormProps = {
+  amount: string;
   expense?: Expense;
   participantOptions: { value: string; label: string }[];
   handleAmountChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 export function ExpenseDetailsForm({
+  amount,
   expense,
   participantOptions,
   handleAmountChange,
@@ -38,9 +40,9 @@ export function ExpenseDetailsForm({
           required
           label="Amount"
           placeholder="0.00"
-          type="number"
+          type="text"
           name="amount"
-          defaultValue={expense ? expense.amount.toString() : 0}
+          value={amount}
           onChange={handleAmountChange}
         />
         <SelectWithLabel

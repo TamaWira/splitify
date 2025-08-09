@@ -1,6 +1,6 @@
 import { getExpenseById } from "@/actions/expenses";
-import { AddExpenseForm } from "@/components/features/add-expense/add-expense-form";
 import { ExpenseNavbar } from "@/components/features/expense/expense-navbar";
+import { ExpenseForm } from "@/components/shared/expense-form";
 
 export default async function ExpensePage({
   params,
@@ -13,7 +13,7 @@ export default async function ExpensePage({
   return (
     <main className="space-y-8 px-5 pt-[80px] pb-10 min-h-screen">
       <ExpenseNavbar title={expense.title} />
-      <AddExpenseForm groupId={groupId} expense={expense} />
+      <ExpenseForm groupId={groupId} expense={expense} />
     </main>
   );
 }

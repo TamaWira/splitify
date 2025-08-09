@@ -2,6 +2,7 @@ import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { ExpenseWithSummary } from "@/types/expenses";
 import Link from "next/link";
+import { formatRupiah } from "../../../utils/format-to-rupiah";
 
 type ExpenseListRowProps = {
   expense: ExpenseWithSummary;
@@ -19,7 +20,9 @@ export function ExpenseListRow({ expense }: ExpenseListRowProps) {
               <p>{expense.category}</p>
             </div>
           </div>
-          <h2 className="font-bold text-xl">Rp{expense.totalAmount}</h2>
+          <h2 className="font-bold text-xl">
+            {formatRupiah(parseFloat(expense.totalAmount))}
+          </h2>
         </div>
         <Separator className="my-4" />
         {/* Footer */}

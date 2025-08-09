@@ -5,26 +5,39 @@ import { ExpenseFulfillmentSwitch } from "@/components/shared/expense-fulfillmen
 import { useParticipantsByGroupId } from "@/hooks/useParticipantsByGroupId";
 import { CreateExpenseDto, ExpenseWithParticipants } from "@/types/expenses";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { FormActionButtonsClientWrapper } from "../../shared/form-action-buttons-client-wrapper";
-import { ExpenseDetailsForm } from "./expense-details-form";
-import { SplitDetailsForm } from "./split-details-form";
+import { useCallback, useEffect, useState } from "react";
+import { FormActionButtonsClientWrapper } from "./form-action-buttons-client-wrapper";
+import { ExpenseDetailsForm } from "../features/add-expense/expense-details-form";
+import { SplitDetailsForm } from "../features/add-expense/split-details-form";
+import {
+  formatRupiahNoPrefix,
+  parseRupiahStringToNumber,
+} from "@/utils/currency";
 
 type AddExpenseProps = {
   groupId: string;
   expense?: ExpenseWithParticipants;
 };
 
-export function AddExpenseForm({ groupId, expense }: AddExpenseProps) {
+export function ExpenseForm({ groupId, expense }: AddExpenseProps) {
   // ===== Hooks =====
   const router = useRouter();
 
   // ===== States =====
   const [amount, setAmount] = useState(expense ? expense.amount : 0);
+  const [amountText, setAmountText] = useState<string>(
+    formatRupiahNoPrefix(expense ? expense.amount : 0)
+  );
   const { participantOptions, isFetchingParticipants } =
     useParticipantsByGroupId(groupId);
 
+  // ----- Derived States -----
   const backHref = expense ? `/groups/${groupId}?section=expenses` : null;
+
+  // ----- Effects -----
+  useEffect(() => {
+    setAmountText(formatRupiahNoPrefix(amount));
+  }, [amount]);
 
   // ===== Handlers =====
   /**
@@ -72,14 +85,20 @@ export function AddExpenseForm({ groupId, expense }: AddExpenseProps) {
    * Handles the amount change event.
    * @param event
    */
-  const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseFloat(event.target.value);
-    setAmount(isNaN(value) ? 0 : value);
-  };
+  const handleAmountChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const raw = event.target.value;
+      const next = parseRupiahStringToNumber(raw);
+      setAmount(next);
+      setAmountText(formatRupiahNoPrefix(next));
+    },
+    []
+  );
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       <ExpenseDetailsForm
+        amount={amountText}
         expense={expense}
         participantOptions={participantOptions}
         handleAmountChange={handleAmountChange}

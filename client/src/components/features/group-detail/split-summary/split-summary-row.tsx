@@ -1,5 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { SplitSummary } from "@/types/groups";
+import { formatRupiah } from "../../../../utils/format-to-rupiah";
 
 type SplitSummaryRowProps = {
   summary: SplitSummary;
@@ -20,7 +21,9 @@ export function SplitSummaryRow({ summary }: SplitSummaryRowProps) {
           >
             {summary.category}
           </p>
-          <p className="font-semibold text-xl">Rp{summary.amount}</p>
+          <p className="font-semibold text-xl">
+            {formatRupiah(summary.amount)}
+          </p>
         </div>
       </div>
     </Card>

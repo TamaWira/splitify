@@ -1,3 +1,5 @@
+import { formatRupiah } from "@/utils/format-to-rupiah";
+
 export function SplitDetailsFormHeader({
   totalChecked,
   splitAmount,
@@ -10,7 +12,7 @@ export function SplitDetailsFormHeader({
       <h2 className="font-semibold text-xl">Split Between</h2>
       <p className="text-gray-500/80">
         {totalChecked
-          ? `$${splitAmount.toFixed(2)} per person`
+          ? `${formatRupiah(splitAmount)} per person`
           : "Select participants to split this expense"}
       </p>
     </div>

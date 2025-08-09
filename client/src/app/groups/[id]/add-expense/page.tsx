@@ -1,13 +1,13 @@
-import { AddExpenseForm } from "@/components/features/add-expense/add-expense-form";
 import { AddExpenseNavbar } from "@/components/features/add-expense/add-expense-navbar";
+import { ExpenseForm } from "@/components/shared/expense-form";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const { id } = await params;
 
   return (
-    <main className="px-5 pb-10 pt-[80px] space-y-8 min-h-screen">
+    <main className="space-y-8 px-5 pt-[80px] pb-10 min-h-screen">
       <AddExpenseNavbar />
-      <AddExpenseForm groupId={id} />
+      <ExpenseForm groupId={id} />
     </main>
   );
 }

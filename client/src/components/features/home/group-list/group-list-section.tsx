@@ -43,26 +43,4 @@ export async function GroupListSection({ clientId }: GroupListSectionProps) {
     console.error(e);
     return <ServerErrorFallback />;
   }
-  // try {
-  // } catch (e) {
-  //   console.error(e);
-  // }
-  // try {
-  //   const groups = await fetchGroupSummaries(clientId);
-
-  //   const unsettledGroups = groups.filter((group) => !group.isFullySettled);
-  //   const fulfilledGroups = groups.filter((group) => group.isFullySettled);
-
-  //   console.log(unsettledGroups);
-
-  //   return (
-  //     <Suspense fallback={<Skeleton className="w-full h-12" />}>
-  //       <GroupList type="Unsettled" seeAllHref="#" groups={unsettledGroups} />
-  //       <GroupList type="Fulfilled" seeAllHref="#" groups={fulfilledGroups} />
-  //     </Suspense>
-  //   );
-  // } catch (e) {
-  //   console.error(e);
-  //   return <ServerErrorFallback />;
-  // }
 }
