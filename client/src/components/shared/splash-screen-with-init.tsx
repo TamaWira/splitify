@@ -22,7 +22,14 @@ export function SplashScreenWithInit() {
       );
 
       const { data } = await res.json();
-      setCookie("splitify_client_id", data.id, {
+
+      const clientId = data.id;
+
+      if (!clientId) throw new Error("Client ID not found");
+
+      const cookie = `Bearer ${clientId}`;
+
+      setCookie("splitify_client_id", cookie, {
         maxAge: 60 * 60 * 24 * 365,
         path: "/",
       });

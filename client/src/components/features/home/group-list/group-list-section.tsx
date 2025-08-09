@@ -14,7 +14,7 @@ export const fetchGroupSummaries = async (
   clientId: string
 ): Promise<GroupSummary[]> => {
   return safeFetch<GroupSummary[]>(
-    `http://localhost:8000/api/groups?withSummary=true`,
+    `${process.env.NEXT_PUBLIC_BASE_API_URL}/groups?withSummary=true`,
     {
       method: "GET",
       headers: {
