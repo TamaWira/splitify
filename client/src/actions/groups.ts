@@ -34,7 +34,7 @@ export const fetchGroupByIdWithSummary = async (
   const clientId = await getSplitifyClientId();
 
   return safeFetch<GroupSummary>(
-    `http://localhost:8000/api/groups/${id}?withSummary=true`,
+    `${process.env.NEXT_PUBLIC_BASE_API_URL}/groups/${id}?withSummary=true`,
     {
       method: "GET",
       headers: {
@@ -80,16 +80,16 @@ export const addGroup = async (formData: FormData) => {
   }));
 
   const payload = {
-    group: {
-      clientId,
-      title: groupTitle,
-    },
+    clientId,
+    title: groupTitle,
     participants,
   };
 
+  console.log(payload);
+
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API_URL}/groups/with-participants`,
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/groups`,
       {
         method: "POST",
         headers: {
@@ -103,7 +103,7 @@ export const addGroup = async (formData: FormData) => {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const data = await response.json();
+    const { data } = await response.json();
     groupId = data.id;
 
     // Move redirect outside the try-catch block
