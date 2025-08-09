@@ -1,4 +1,4 @@
-import { ParticipantDetails } from "@/types/participant";
+import { ParticipantDetails } from "@/types/participants";
 import { ParticipantDetailsHeader } from "./participant-details-header";
 import { ParticipantDetailsInput } from "./participant-details-input";
 
@@ -32,7 +32,7 @@ export function ParticipantsDetailsFormRow({
    * @param {React.ChangeEvent<HTMLInputElement>} e - The event object
    */
   const handleUpdateParticipantNameChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
+    e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const newParticipants = [...participants];
     newParticipants[index].name = e.target.value;
@@ -44,7 +44,7 @@ export function ParticipantsDetailsFormRow({
    * @param {React.ChangeEvent<HTMLInputElement>} e - The event object
    */
   const handleUpdateParticipantEmailChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
+    e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const newParticipants = [...participants];
     newParticipants[index].email = e.target.value;
@@ -52,7 +52,7 @@ export function ParticipantsDetailsFormRow({
   };
 
   return (
-    <div className="p-3 rounded-lg border border-gray-500/10 space-y-3">
+    <div className="space-y-3 p-3 border border-gray-500/10 rounded-lg">
       {/* Header */}
       <ParticipantDetailsHeader
         handleDeleteParticipant={handleDeleteParticipant}
@@ -69,7 +69,7 @@ export function ParticipantsDetailsFormRow({
 
       <ParticipantDetailsInput
         name="participant-email"
-        value={participant.email}
+        value={participant.email ?? ""}
         placeholder="Email (optional)"
         handleOnChange={handleUpdateParticipantEmailChange}
       />

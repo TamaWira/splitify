@@ -2,7 +2,11 @@ import { ParticipantList } from "@/components/features/group-detail/participant-
 import { ManageParticipantsHeader } from "@/components/features/manage-participants/manage-participants-header";
 import { ManageParticipantsNavbar } from "@/components/features/manage-participants/manage-participants-navbar";
 
-export default async function Page({ params }: { params: { id: string } }) {
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const { id: groupId } = await params;
 
   return (

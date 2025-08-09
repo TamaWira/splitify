@@ -5,7 +5,7 @@ import { ExpenseForm } from "@/components/shared/expense-form";
 export default async function ExpensePage({
   params,
 }: {
-  params: { id: string; expenseId: string };
+  params: Promise<{ id: string; expenseId: string }>;
 }) {
   const { expenseId, id: groupId } = await params;
   const expense = await getExpenseById(expenseId);

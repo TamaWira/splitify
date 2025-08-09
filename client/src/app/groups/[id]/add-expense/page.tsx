@@ -1,7 +1,11 @@
 import { AddExpenseNavbar } from "@/components/features/add-expense/add-expense-navbar";
 import { ExpenseForm } from "@/components/shared/expense-form";
 
-export default async function Page({ params }: { params: { id: string } }) {
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const { id } = await params;
 
   return (

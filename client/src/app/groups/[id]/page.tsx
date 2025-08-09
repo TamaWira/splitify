@@ -10,11 +10,11 @@ export default async function Page({
   params,
   searchParams,
 }: {
-  params: { id: string };
-  searchParams: { section: string };
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ section: string }>;
 }) {
-  const { id } = await params; // Next.js stated that `params` need to be awaited
-  const { section } = await searchParams; // Next.js stated that `params` need to be awaited
+  const { id } = await params;
+  const { section } = await searchParams;
 
   const group = await fetchGroupByIdWithSummary(id);
 

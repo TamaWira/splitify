@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ParticipantDetails } from "@/types/participant";
+import { ParticipantDetails } from "@/types/participants";
 import { useState } from "react";
 import { ParticipantsDetailsFormRow } from "./participants-details-form-row";
 
