@@ -1,6 +1,7 @@
 import { InputWithLabel } from "@/components/shared/input-with-label";
 import { SelectWithLabel } from "@/components/shared/select-with-label";
 import { Card } from "@/components/ui/card";
+import { Expense } from "@/types/expenses";
 
 const mockCategories = [
   { value: "food", label: "Food" },
@@ -10,18 +11,14 @@ const mockCategories = [
   { value: "other", label: "Other" },
 ];
 
-const mockParticipants = [
-  { value: "bayu", label: "Bayu" },
-  { value: "bernika", label: "Bernika" },
-  { value: "ken", label: "Ken" },
-];
-
 type ExpenseDetailsFormProps = {
+  expense?: Expense;
   participantOptions: { value: string; label: string }[];
   handleAmountChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 export function ExpenseDetailsForm({
+  expense,
   participantOptions,
   handleAmountChange,
 }: ExpenseDetailsFormProps) {
@@ -33,6 +30,7 @@ export function ExpenseDetailsForm({
           required
           label="Expense Title"
           placeholder="e.g., Dinner at restaurant"
+          defaultValue={expense ? expense.title : ""}
           type="text"
           name="title"
         />
@@ -42,6 +40,7 @@ export function ExpenseDetailsForm({
           placeholder="0.00"
           type="number"
           name="amount"
+          defaultValue={expense ? expense.amount.toString() : 0}
           onChange={handleAmountChange}
         />
         <SelectWithLabel
@@ -49,6 +48,7 @@ export function ExpenseDetailsForm({
           label="Category"
           placeholder="Select category"
           name="category"
+          defaultValue={expense ? expense.category : ""}
           options={mockCategories}
         />
         <SelectWithLabel
@@ -56,6 +56,7 @@ export function ExpenseDetailsForm({
           label="Paid By"
           placeholder="Who paid?"
           name="paid-by"
+          defaultValue={expense ? expense.paidBy : ""}
           options={participantOptions}
         />
       </div>

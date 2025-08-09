@@ -7,7 +7,7 @@ export type InputWithLabelProps = {
   name: string;
   placeholder?: string;
   value?: string;
-  defaultValue?: string;
+  defaultValue?: string | number;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 

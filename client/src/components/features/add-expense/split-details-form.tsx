@@ -4,20 +4,25 @@ import { CheckboxWithLabel } from "@/components/shared/checkbox-with-label";
 import { Card } from "@/components/ui/card";
 import { useState } from "react";
 import { SplitDetailsFormHeader } from "./split-details-form-header";
+import { ExpenseWithParticipants } from "@/types/expenses";
 
 type SplitDetailsFormProps = {
   participantsOptions: { value: string; label: string }[];
   isFetchingParticipants: boolean;
   amount: number;
+  expense?: ExpenseWithParticipants;
 };
 
 export function SplitDetailsForm({
   participantsOptions,
   isFetchingParticipants,
   amount,
+  expense,
 }: SplitDetailsFormProps) {
   // ===== States =====
-  const [checkedList, setCheckedList] = useState<string[]>([]);
+  const [checkedList, setCheckedList] = useState<string[]>(
+    expense ? expense.participants.map((p) => p.participantId) : []
+  );
 
   // ===== Derived States =====
   const totalChecked = checkedList.length;

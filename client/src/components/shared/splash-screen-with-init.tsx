@@ -28,7 +28,7 @@ export function SplashScreenWithInit() {
     };
 
     init();
-  }, []);
+  }, [router]);
 
   return <SplashScreen />;
 }

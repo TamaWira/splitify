@@ -8,6 +8,7 @@ import {
 
 type SelectWithLabelProps = {
   required?: boolean;
+  defaultValue?: string;
   label: string;
   name: string;
   placeholder: string;
@@ -20,13 +21,14 @@ export function SelectWithLabel({
   name,
   placeholder,
   options,
+  defaultValue,
 }: SelectWithLabelProps) {
   return (
     <div className="flex flex-col gap-1">
-      <label className="text-sm font-semibold text-gray-700" htmlFor={name}>
+      <label className="font-semibold text-gray-700 text-sm" htmlFor={name}>
         {label}
       </label>
-      <Select name={name} required={required}>
+      <Select defaultValue={defaultValue} name={name} required={required}>
         <SelectTrigger>
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>

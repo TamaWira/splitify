@@ -14,11 +14,12 @@ export const fetchGroupSummaries = async (
   clientId: string
 ): Promise<GroupSummary[]> => {
   return safeFetch<GroupSummary[]>(
-    `http://localhost:8000/api/groups?clientId=${clientId}&withSummary=true`,
+    `http://localhost:8000/api/groups?withSummary=true`,
     {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${clientId}`,
       },
       cache: "no-store",
     }

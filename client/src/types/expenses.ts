@@ -1,3 +1,5 @@
+import { ExpenseParticipant } from "./expense-participants";
+
 export type Expense = {
   id: string;
   groupId: string;
@@ -5,6 +7,7 @@ export type Expense = {
   title: string;
   amount: number;
   category: string;
+  isSettled: boolean;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -16,7 +19,6 @@ export type CreateExpenseDto = {
   category: string;
   paidBy: string;
   participants: string[];
-  share: number;
   isSettled: boolean;
 };
 
@@ -28,4 +30,8 @@ export type ExpenseWithSummary = {
   category: string;
   paidBy: string;
   participantsCount: number;
+};
+
+export type ExpenseWithParticipants = Expense & {
+  participants: ExpenseParticipant[];
 };

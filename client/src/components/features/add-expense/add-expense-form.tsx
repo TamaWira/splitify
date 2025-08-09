@@ -1,9 +1,9 @@
 "use client";
 
-import { addExpense } from "@/actions/expenses";
+import { addExpense, editExpense } from "@/actions/expenses";
 import { ExpenseFulfillmentSwitch } from "@/components/shared/expense-fulfillment-switch";
 import { useParticipantsByGroupId } from "@/hooks/useParticipantsByGroupId";
-import { CreateExpenseDto } from "@/types/expenses";
+import { CreateExpenseDto, ExpenseWithParticipants } from "@/types/expenses";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FormActionButtonsClientWrapper } from "../../shared/form-action-buttons-client-wrapper";
@@ -12,16 +12,19 @@ import { SplitDetailsForm } from "./split-details-form";
 
 type AddExpenseProps = {
   groupId: string;
+  expense?: ExpenseWithParticipants;
 };
 
-export function AddExpenseForm({ groupId }: AddExpenseProps) {
+export function AddExpenseForm({ groupId, expense }: AddExpenseProps) {
   // ===== Hooks =====
   const router = useRouter();
 
   // ===== States =====
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState(expense ? expense.amount : 0);
   const { participantOptions, isFetchingParticipants } =
     useParticipantsByGroupId(groupId);
+
+  const backHref = expense ? `/groups/${groupId}?section=expenses` : null;
 
   // ===== Handlers =====
   /**
@@ -39,7 +42,6 @@ export function AddExpenseForm({ groupId }: AddExpenseProps) {
       const category = formData.get("category") as string;
       const paidBy = formData.get("paid-by") as string;
       const participants = formData.getAll("participants") as string[];
-      const share = amount / participants.length;
       const isSettled = formData.get("is-settled") as string;
 
       const payload: CreateExpenseDto = {
@@ -49,11 +51,12 @@ export function AddExpenseForm({ groupId }: AddExpenseProps) {
         category,
         paidBy,
         participants,
-        share,
         isSettled: isSettled === "true",
       };
 
-      const data = await addExpense(payload);
+      const data = expense
+        ? await editExpense(expense.id, payload)
+        : await addExpense(payload);
 
       if (!data) {
         console.error("Failed to add expense");
@@ -77,16 +80,22 @@ export function AddExpenseForm({ groupId }: AddExpenseProps) {
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       <ExpenseDetailsForm
+        expense={expense}
         participantOptions={participantOptions}
         handleAmountChange={handleAmountChange}
       />
       <SplitDetailsForm
+        expense={expense}
         participantsOptions={participantOptions}
         isFetchingParticipants={isFetchingParticipants}
         amount={amount}
       />
-      <ExpenseFulfillmentSwitch />
-      <FormActionButtonsClientWrapper backSection="expenses" />
+      <ExpenseFulfillmentSwitch expense={expense} />
+      <FormActionButtonsClientWrapper
+        expense={expense}
+        backHref={backHref}
+        backSection="expenses"
+      />
     </form>
   );
 }

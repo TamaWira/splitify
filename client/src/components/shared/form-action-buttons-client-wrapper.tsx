@@ -1,13 +1,20 @@
 "use client";
 
 import { FormActionButtons } from "@/components/shared/form-action-buttons";
+import { ExpenseWithParticipants } from "@/types/expenses";
 import { usePathname } from "next/navigation";
 
 type Props = {
   backSection: string;
+  backHref?: string | null;
+  expense?: ExpenseWithParticipants;
 };
 
-export function FormActionButtonsClientWrapper({ backSection }: Props) {
+export function FormActionButtonsClientWrapper({
+  backSection,
+  backHref,
+  expense,
+}: Props) {
   const pathname = usePathname();
 
   const pathSegments = pathname.split("/").filter(Boolean);
@@ -16,9 +23,9 @@ export function FormActionButtonsClientWrapper({ backSection }: Props) {
 
   return (
     <FormActionButtons
-      cancelHref={previousUrl}
+      cancelHref={backHref ? backHref : previousUrl}
       cancelText="Cancel"
-      submitText="Add Expense"
+      submitText={expense ? "Update Expense" : "Add Expense"}
     />
   );
 }

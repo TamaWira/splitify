@@ -4,6 +4,7 @@ import { ApiResponse } from "@/types/api";
 import {
   CreateExpenseDto,
   Expense,
+  ExpenseWithParticipants,
   ExpenseWithSummary,
 } from "@/types/expenses";
 
@@ -58,11 +59,35 @@ export const addExpense = async (payload: CreateExpenseDto) => {
   }
 };
 
-export const getExpenseById = async (id: string) => {
+export const editExpense = async (id: string, payload: CreateExpenseDto) => {
+  console.log("Edit Expense");
+
   try {
-    const response = await fetch(`http://localhost:8000/api/expenses/${id}`);
+    const { ...rest } = payload;
+    const response = await fetch(`http://localhost:8000/api/expenses/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(rest),
+    });
     const data = await response.json();
     return data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const getExpenseById = async (
+  id: string
+): Promise<ExpenseWithParticipants> => {
+  try {
+    const response = await fetch(`http://localhost:8000/api/expenses/${id}`);
+    const data =
+      (await response.json()) as ApiResponse<ExpenseWithParticipants>;
+
+    return data.data as ExpenseWithParticipants;
   } catch (error) {
     console.error(error);
     throw error;
