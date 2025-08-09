@@ -92,6 +92,8 @@ export class GroupsController {
     @Req() req: RequestWithUser,
   ): Promise<(GroupDto | GroupSummaryDto)[]> {
     const { clientId } = req.user;
+    console.log(req.user);
+    console.log(clientId);
     return this.groupsService.findAll(clientId, query);
   }
 
