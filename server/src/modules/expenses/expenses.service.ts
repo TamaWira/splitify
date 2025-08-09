@@ -8,6 +8,7 @@ import { FilterExpenseDto } from './dto/filter-expense.dto';
 import { UpdateExpenseDto } from './dto/update-expense.dto';
 import { Expense } from './entities/expense.entity';
 import { ExpenseWithParticipantsDto } from './dto/expense-with-participants.dto';
+import { ExpenseParticipantDto } from '../expense-participants/dto/expense-participant.dto';
 
 @Injectable()
 export class ExpensesService {
@@ -53,11 +54,37 @@ export class ExpensesService {
     }));
   }
 
-  async findOneWithParticipants(expenseId: string): Promise<Expense | null> {
-    return this.expenseRepository.findOne({
+  async findOneWithParticipants(
+    expenseId: string,
+  ): Promise<ExpenseWithParticipantsDto> {
+    const expense = await this.expenseRepository.findOne({
       where: { id: expenseId },
-      relations: ['expenseParticipants'],
+      relations: { expenseParticipants: true },
     });
+
+    if (!expense) throw new NotFoundException('Expense not found');
+
+    const participants: ExpenseParticipantDto[] = (
+      expense.expenseParticipants ?? []
+    ).map((ep) => ({
+      id: ep.id,
+      expenseId: ep.expenseId,
+      participantId: ep.participantId,
+      share: Number(ep.share),
+    }));
+
+    return {
+      id: expense.id,
+      groupId: expense.groupId,
+      title: expense.title,
+      amount: Number(expense.amount),
+      isSettled: expense.isSettled,
+      paidBy: expense.paidBy,
+      category: expense.category,
+      createdAt: expense.createdAt,
+      updatedAt: expense.updatedAt,
+      participants,
+    };
   }
 
   /**
@@ -180,9 +207,11 @@ export class ExpensesService {
         groupId: updated.groupId,
         paidBy: updated.paidBy,
         createdAt: updated.createdAt,
+        updatedAt: updated.updatedAt,
         participants: updated.expenseParticipants.map((ep) => ({
           id: ep.participant.id,
-          name: ep.participant.name,
+          expenseId: ep.expenseId,
+          participantId: ep.participantId,
           share: Number(ep.share),
         })),
       };

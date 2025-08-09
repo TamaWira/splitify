@@ -1,8 +1,8 @@
 import { Body, Controller, HttpStatus, Ip, Post } from '@nestjs/common';
-import { ClientsService } from './clients.service';
-import { CreateClientDto } from './dto/create-client.dto';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { Client } from './entities/client.entity';
+import { ClientsService } from './clients.service';
+import { ClientDto } from './dto/client.dto';
+import { CreateClientDto } from './dto/create-client.dto';
 
 @Controller('clients')
 export class ClientsController {
@@ -13,12 +13,12 @@ export class ClientsController {
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'The client id created',
-    type: Client,
+    type: ClientDto,
   })
   async create(
     @Body() createClientDto: CreateClientDto,
     @Ip() ip: string,
-  ): Promise<Client> {
+  ): Promise<ClientDto> {
     return await this.clientsService.create({
       ...createClientDto,
       ipAddress: ip,

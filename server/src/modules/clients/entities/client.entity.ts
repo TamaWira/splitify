@@ -1,4 +1,3 @@
-import { ApiProperty } from '@nestjs/swagger';
 import { Group } from 'src/modules/groups/entities/group.entity';
 import {
   Column,
@@ -11,27 +10,21 @@ import {
 
 @Entity('clients')
 export class Client {
-  @ApiProperty()
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ApiProperty()
   @Column({ nullable: true, name: 'device_type', type: 'varchar', length: 255 })
   deviceType: string;
 
-  @ApiProperty()
   @Column({ nullable: true, name: 'device_name', type: 'varchar', length: 255 })
   deviceName: string;
 
-  @ApiProperty()
   @Column({ nullable: true, name: 'os_name', type: 'varchar', length: 255 })
   osName: string;
 
-  @ApiProperty()
   @Column({ nullable: true, name: 'os_version', type: 'varchar', length: 255 })
   osVersion: string;
 
-  @ApiProperty()
   @Column({
     nullable: true,
     name: 'browser_name',
@@ -40,7 +33,6 @@ export class Client {
   })
   browserName: string;
 
-  @ApiProperty()
   @Column({
     nullable: true,
     name: 'browser_version',
@@ -49,7 +41,6 @@ export class Client {
   })
   browserVersion: string;
 
-  @ApiProperty()
   @Column({
     nullable: true,
     name: 'user_agent',
@@ -58,7 +49,6 @@ export class Client {
   })
   userAgent: string;
 
-  @ApiProperty()
   @Column({
     nullable: true,
     name: 'screen_resolution',
@@ -67,19 +57,15 @@ export class Client {
   })
   screenResolution: string;
 
-  @ApiProperty()
   @Column({ nullable: true, name: 'language', type: 'varchar', length: 255 })
   language: string;
 
-  @ApiProperty()
   @Column({ nullable: true, name: 'timezone', type: 'varchar', length: 255 })
   timezone: string;
 
-  @ApiProperty()
   @Column({ nullable: true, name: 'ip_address', type: 'varchar', length: 255 })
   ipAddress: string;
 
-  @ApiProperty()
   @CreateDateColumn({
     name: 'created_at',
     type: 'timestamp',
@@ -87,7 +73,6 @@ export class Client {
   })
   createdAt: Date;
 
-  @ApiProperty()
   @UpdateDateColumn({
     name: 'updated_at',
     type: 'timestamp',

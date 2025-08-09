@@ -1,10 +1,9 @@
+import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsBoolean, IsOptional, IsUUID } from 'class-validator';
+import { IsBoolean, IsOptional } from 'class-validator';
 
 export class FindAllGroupsParamsDto {
-  @IsUUID()
-  clientId: string;
-
+  @ApiPropertyOptional()
   @IsOptional()
   @Transform(({ value }) => value === 'true' || value === '1')
   @IsBoolean()

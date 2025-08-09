@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateParticipantWithoutGroupIdDto } from 'src/modules/participants/dto/create-participant-without-group-id.dto';
 import { Participant } from 'src/modules/participants/entities/participant.entity';
@@ -11,6 +7,7 @@ import { CreateGroupDto } from './dto/create-group.dto';
 import { FindAllGroupsParamsDto } from './dto/find-all-groups-params.dto';
 import { GroupSummaryRaw } from './dto/group-summary-raw.dto';
 import { GroupSummaryDto } from './dto/group-summary.dto';
+import { GroupDto } from './dto/group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
 import { Group } from './entities/group.entity';
 
@@ -26,16 +23,13 @@ export class GroupsService {
    * @param {FindAllGroupsParamsDto} query - Queries for fetching the groups.
    * @param {string} query.clientId - The id of the client.
    * @param {boolean} query.withSummary - The state for fetching the groups with their summary.
-   * @returns {Group[] | GroupSummaryDto[]} - The list of group (raw or with summary).
+   * @returns {(GroupDto | GroupSummaryDto)[]} - The list of group (raw or with summary).
    */
   async findAll(
+    clientId: string,
     query: FindAllGroupsParamsDto,
-  ): Promise<Group[] | GroupSummaryDto[]> {
-    const { clientId, withSummary } = query;
-
-    if (!clientId) {
-      throw new BadRequestException('client id is required');
-    }
+  ): Promise<(GroupDto | GroupSummaryDto)[]> {
+    const { withSummary } = query;
 
     const qb = this.groupRepository.createQueryBuilder('g');
 
@@ -153,7 +147,7 @@ export class GroupsService {
    * @param {Object} createGroupDto - Create group payload
    * @returns
    */
-  async create(createGroupDto: CreateGroupDto) {
+  async create(createGroupDto: CreateGroupDto): Promise<GroupDto> {
     return await this.groupRepository.manager.transaction(async (manager) => {
       // 1. Create the group
       const group = manager.create(Group, {
@@ -182,7 +176,7 @@ export class GroupsService {
    * @param {Object} updateGroupDto - Update group payload
    * @returns
    */
-  async update(id: string, updateGroupDto: UpdateGroupDto) {
+  async update(id: string, updateGroupDto: UpdateGroupDto): Promise<GroupDto> {
     // Using queryBuilder instead of findOneBy + save
     // To return the new row's full column
     const result = await this.groupRepository

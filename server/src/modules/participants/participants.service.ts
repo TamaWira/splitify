@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Participant } from './entities/participant.entity';
 import { Repository } from 'typeorm';
 import { FilterParticipantsDto } from './dto/filter-participants.dto';
+import { ParticipantDto } from './dto/participant.dto';
 
 @Injectable()
 export class ParticipantsService {
@@ -39,7 +40,11 @@ export class ParticipantsService {
    * @returns
    */
   async findOne(id: string) {
-    return await this.participantRepository.findOneBy({ id });
+    const participant = await this.participantRepository.findOneBy({ id });
+
+    if (!participant) throw new NotFoundException(`Participant not found`);
+
+    return participant;
   }
 
   /**
@@ -71,14 +76,17 @@ export class ParticipantsService {
    * @param {Object} updateParticipantDto - Update participant payload
    * @returns
    */
-  async update(id: string, updateParticipantDto: UpdateParticipantDto) {
-    const participant = await this.participantRepository.findOneBy({ id });
-    if (!participant) {
-      throw new NotFoundException();
-    }
+  async update(
+    id: string,
+    updateParticipantDto: UpdateParticipantDto,
+  ): Promise<ParticipantDto> {
+    const participant = await this.participantRepository.findOne({
+      where: { id },
+    });
+    if (!participant) throw new NotFoundException('User not found');
 
-    await this.participantRepository.update(id, updateParticipantDto);
-    return await this.participantRepository.findOneBy({ id });
+    Object.assign(participant, updateParticipantDto);
+    return await this.participantRepository.save(participant);
   }
 
   /**
@@ -93,6 +101,5 @@ export class ParticipantsService {
     }
 
     await this.participantRepository.delete(id);
-    return participant;
   }
 }

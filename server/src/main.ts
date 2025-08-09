@@ -13,7 +13,6 @@ async function bootstrap() {
     .setTitle('Splitify')
     .setDescription('API for Splitify Server')
     .setVersion('1.0')
-    .addTag('splitify')
     .addGlobalResponse({
       status: 500,
       description: 'Internal server error',
