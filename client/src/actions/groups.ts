@@ -44,24 +44,6 @@ export const fetchGroupByIdWithSummary = async (
       cache: "no-store",
     }
   );
-
-  // const response = await fetch(
-  //   `http://localhost:8000/api/groups/${id}/summary`,
-  // {
-  //   method: "GET",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //     Authorization: `Bearer ${clientId}`,
-  //   },
-  //   cache: "no-store",
-  // }
-  // );
-
-  // if (!response.ok) {
-  //   throw new Error(`HTTP error! status: ${response.status}`);
-  // }
-
-  // return await response.json();
 };
 
 export const addGroup = async (formData: FormData) => {

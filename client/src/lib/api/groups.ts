@@ -4,7 +4,7 @@ import { ExpenseWithSummary } from "@/types/expenses";
 
 export async function fetchSplitSummary(id: string) {
   return safeFetch<SplitSummary[]>(
-    `http://localhost:8000/api/groups/${id}/split-summary`,
+    `${process.env.NEXT_PUBLIC_BASE_API_URL}/groups/${id}/split-summary`,
     {
       method: "GET",
       headers: {
@@ -17,7 +17,7 @@ export async function fetchSplitSummary(id: string) {
 
 export async function fetchGroupsExpenses(groupId: string) {
   return safeFetch<ExpenseWithSummary[]>(
-    `http://localhost:8000/api/groups/${groupId}/expenses?withSummary=true`,
+    `${process.env.NEXT_PUBLIC_BASE_API_URL}/groups/${groupId}/expenses?withSummary=true`,
     {
       method: "GET",
       headers: {
