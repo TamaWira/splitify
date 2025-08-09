@@ -1,24 +1,21 @@
 import {
   Body,
   Controller,
-  Delete,
   Get,
   Param,
   Patch,
   Post,
   Query,
 } from '@nestjs/common';
+import { ExpenseParticipantsService } from '../expense-participants/expense-participants.service';
+import { CreateExpenseDto } from '../expenses/dto/create-expense.dto';
+import { ExpensesService } from '../expenses/expenses.service';
+import { CreateParticipantDto } from '../participants/dto/create-participant.dto';
 import { ParticipantsService } from '../participants/participants.service';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { FindAllGroupsParamsDto } from './dto/find-all-groups-params.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
 import { GroupsService } from './groups.service';
-import { ExpenseParticipantsService } from '../expense-participants/expense-participants.service';
-import { ExpensesService } from '../expenses/expenses.service';
-import { CreateExpenseDto } from '../expenses/dto/create-expense.dto';
-import { UpdateParticipantDto } from '../participants/dto/update-participant.dto';
-import { CreateParticipantDto } from '../participants/dto/create-participant.dto';
-import { UpdateExpenseDto } from '../expenses/dto/update-expense.dto';
 
 @Controller('groups')
 export class GroupsController {
@@ -48,6 +45,11 @@ export class GroupsController {
     return this.expenseParticipantsService.getSplitSummary(id);
   }
 
+  @Get(':id/summary-text')
+  async getTextSummary(@Param('id') id: string) {
+    return this.groupsService.generateSplitTextSummary(id);
+  }
+
   @Post()
   create(@Body() createGroupDto: CreateGroupDto) {
     return this.groupsService.create(createGroupDto);
@@ -67,11 +69,6 @@ export class GroupsController {
     return this.expensesService.findAll({ groupId: id });
   }
 
-  @Get(':groupId/expenses/:expenseId')
-  findExpense(@Param('expenseId') expenseId: string) {
-    return this.expensesService.findOneWithParticipants(expenseId);
-  }
-
   @Post(':id/expenses')
   createExpense(
     @Param('id') id: string,
@@ -85,17 +82,6 @@ export class GroupsController {
     return this.expensesService.create(payload);
   }
 
-  @Patch(':groupId/expenses/:expenseId')
-  updateExpense(
-    @Param('expenseId') expenseId: string,
-    @Body() updateExpenseDto: UpdateExpenseDto,
-  ) {
-    return this.expensesService.updateExpenseWithParticipants(
-      expenseId,
-      updateExpenseDto,
-    );
-  }
-
   // ==================================
   // ========== Participants ==========
   // ==================================
@@ -105,27 +91,16 @@ export class GroupsController {
     return this.participantsService.findAll({ groupId: id });
   }
 
-  @Post(':groupId/participants')
-  createParticipant(@Body() createParticipantDto: CreateParticipantDto) {
-    return this.participantsService.create(createParticipantDto);
-  }
-
-  @Patch(':groupId/participants/:participantId')
-  updateParticipant(
-    @Param('participantId') participantId: string,
-    @Body() updateParticipantDto: UpdateParticipantDto,
+  @Post(':id/participants')
+  createParticipant(
+    @Param('id') id: string,
+    @Body() createParticipantDto: Omit<CreateParticipantDto, 'groupId'>,
   ) {
-    return this.participantsService.update(participantId, updateParticipantDto);
-  }
-
-  @Delete(':groupId/participants/:participantId')
-  deleteParticipant(@Param('participantId') participantId: string) {
-    return this.participantsService.remove(participantId);
-  }
-
-  @Get(':id/summary-text')
-  async getTextSummary(@Param('id') id: string) {
-    return this.groupsService.generateSplitTextSummary(id);
+    const payload: CreateParticipantDto = {
+      ...createParticipantDto,
+      groupId: id,
+    };
+    return this.participantsService.create(payload);
   }
 
   // -- Use later

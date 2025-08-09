@@ -1,29 +1,24 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
-import { CreateExpenseDto } from './dto/create-expense.dto';
-import { FilterExpenseDto } from './dto/filter-expense.dto';
+import { Body, Controller, Get, Param, Patch } from '@nestjs/common';
+import { UpdateExpenseDto } from './dto/update-expense.dto';
 import { ExpensesService } from './expenses.service';
 
 @Controller('expenses')
 export class ExpensesController {
   constructor(private readonly expensesService: ExpensesService) {}
 
-  /**
-   * Create individual expense
-   * @param createExpenseDto - create expense body request
-   * @returns
-   */
-  @Post()
-  create(@Body() createExpenseDto: CreateExpenseDto) {
-    return this.expensesService.create(createExpenseDto);
+  @Get(':id')
+  findExpense(@Param('id') id: string) {
+    return this.expensesService.findOneWithParticipants(id);
   }
 
-  /**
-   * Get list of expenses by group id and filters
-   * @param filter
-   * @returns
-   */
-  @Get()
-  findAll(@Query() filter: FilterExpenseDto) {
-    return this.expensesService.findAll(filter);
+  @Patch(':id')
+  updateExpense(
+    @Param('id') id: string,
+    @Body() updateExpenseDto: UpdateExpenseDto,
+  ) {
+    return this.expensesService.updateExpenseWithParticipants(
+      id,
+      updateExpenseDto,
+    );
   }
 }
