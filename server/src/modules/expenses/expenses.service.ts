@@ -39,7 +39,8 @@ export class ExpensesService {
       .addSelect('COUNT(ep.id)', 'participantsCount')
       .where('e.group_id = :groupId', { groupId })
       .groupBy('e.id')
-      .addGroupBy('p_paid_by.name');
+      .addGroupBy('p_paid_by.name')
+      .orderBy('e.updated_at', 'DESC');
 
     const rawResults = await query.getRawMany<ExpenseSummaryDto>();
 
