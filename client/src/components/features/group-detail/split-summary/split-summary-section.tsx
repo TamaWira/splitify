@@ -12,9 +12,15 @@ export async function SplitSummarySection({
 
   return (
     <div className="flex flex-col gap-3">
-      {summaries.map((summary) => (
-        <SplitSummaryRow key={summary.participantId} summary={summary} />
-      ))}
+      {summaries && summaries.length > 0 ? (
+        summaries.map((summary) => (
+          <SplitSummaryRow key={summary.participantId} summary={summary} />
+        ))
+      ) : (
+        <div className="text-center">
+          <p className="">Add more expense.</p>
+        </div>
+      )}
     </div>
   );
 }
