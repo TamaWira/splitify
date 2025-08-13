@@ -551,7 +551,7 @@ export class GroupsService {
     }
 
     lines.push('\n== Report generated with Splitify');
-    lines.push('== https://splitify-eight.vercel.app/');
+    lines.push('== https://billo-splitbill.vercel.app/');
 
     return lines.join('\n');
   }

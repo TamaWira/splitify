@@ -154,7 +154,7 @@ export class GroupsController {
       - Bernika owes Bayu Rp15.000
 
       == Report generated with Splitify
-      == https://splitify-eight.vercel.app/
+      == https://billo-splitbill.vercel.app/
     `,
   })
   async getTextSummary(@Param('id') id: string): Promise<string> {
