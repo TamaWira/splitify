@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { dataSourceOptions } from 'db/typeorm.config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { typeOrmRuntimeOptions } from './common/config/database.config';
 import { LoggerModule } from './common/logger/logger.module';
 import { ClientsModule } from './modules/clients/clients.module';
 import { ExpenseParticipantsModule } from './modules/expense-participants/expense-participants.module';
@@ -18,7 +18,7 @@ import { ParticipantsModule } from './modules/participants/participants.module';
     ExpensesModule,
     ExpenseParticipantsModule,
     LoggerModule,
-    TypeOrmModule.forRoot(dataSourceOptions),
+    TypeOrmModule.forRoot(typeOrmRuntimeOptions),
   ],
   controllers: [AppController],
   providers: [AppService],

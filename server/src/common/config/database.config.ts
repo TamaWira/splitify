@@ -1,10 +1,13 @@
-export default () => ({
-  database: {
-    host: process.env.DB_HOST!,
-    port: parseInt(process.env.DB_PORT ?? '5432', 10),
-    username: process.env.DB_USERNAME!,
-    password: process.env.DB_PASSWORD!,
-    name: process.env.DB_NAME!,
-    url: process.env.DATABASE_URL!,
-  },
-});
+// src/config/typeorm.runtime.ts
+import 'dotenv/config';
+import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+
+export const typeOrmRuntimeOptions: TypeOrmModuleOptions = {
+  type: 'postgres',
+  url: process.env.DATABASE_URL,
+  ssl:
+    process.env.DATABASE_SSL === 'true' ? { rejectUnauthorized: false } : false,
+  autoLoadEntities: true,
+  synchronize: false,
+  // (optional) logging: true,
+};
