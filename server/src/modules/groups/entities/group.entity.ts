@@ -23,6 +23,19 @@ export class Group {
   @Column({ type: 'varchar', length: 255 })
   title: string;
 
+  @Column({
+    name: 'tax',
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
+    default: 0,
+    transformer: {
+      to: (value: number) => value,
+      from: (value: string) => parseFloat(value),
+    },
+  })
+  tax: number;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
